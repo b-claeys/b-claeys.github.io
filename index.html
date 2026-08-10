@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brooklyn Claeys | Mechanical Engineering</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0707;
+      --text: #f4f0ea;
+      --muted: #b8b1a8;
+      --line: rgba(244, 240, 234, 0.30);
+      --line-soft: rgba(244, 240, 234, 0.14);
+      --panel: #100c0c;
+
+      --accent: #00162A;
+      --accent-line: #123A5A;
+      --accent-text: #6FA0C8;
+
+      --max: 1366px;
+      --work-max: 1220px;
+      --outer: clamp(24px, 4vw, 64px);
+      --gap: clamp(16px, 2vw, 28px);
+      --artifact-height: 430px;
+      --project-text-width: 340px;
+
+      --display: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Inter', Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      letter-spacing: 0.02em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(100%, var(--max));
+      margin: 0 auto;
+      padding: 26px var(--outer) 44px;
+    }
+
+    .site-header {
+      position: relative;
+      min-height: 300px;
+      display: block;
+      padding-bottom: 34px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .header-pdf-link {
+      position: absolute;
+      top: 26px;
+      right: 0;
+      width: fit-content;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 3px;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .header-pdf-link:hover {
+      color: var(--accent-text);
+      border-color: var(--accent-line);
+    }
+
+    .name {
+      margin: 28px 0 18px;
+      font-family: var(--display);
+      font-size: clamp(64px, 8.8vw, 124px);
+      line-height: 0.78;
+      font-weight: 600;
+      letter-spacing: 0.015em;
+      text-transform: uppercase;
+    }
+
+    .name-link {
+      color: inherit;
+      transition: color 160ms ease;
+    }
+
+    .name-link:hover,
+    .name-link:focus-visible {
+      color: var(--accent-text);
+    }
+
+    .identity {
+      display: grid;
+      gap: 6px;
+      color: var(--text);
+      font-size: clamp(12px, 1.05vw, 15px);
+      line-height: 1.15;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .identity span:nth-child(2) {
+      color: var(--muted);
+    }
+
+    .featured,
+    .supporting {
+      width: min(100%, var(--work-max));
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .featured {
+      display: grid;
+      gap: 76px;
+      padding: 54px 0 70px;
+    }
+
+    .project {
+      display: grid;
+      grid-template-columns: 0.9fr 1.25fr 0.8fr;
+      gap: var(--gap);
+      align-items: start;
+    }
+
+    .project.reverse {
+      grid-template-columns: 0.8fr 1.25fr 0.9fr;
+    }
+
+    .project.reverse .project-info {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .project.reverse .main-artifact {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .project.reverse .support-artifacts {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    .support-artifacts {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: var(--gap);
+      height: var(--artifact-height);
+    }
+
+    .artifact {
+      position: relative;
+      display: block;
+      background: var(--panel);
+      border: 1px solid var(--line-soft);
+      min-height: 160px;
+      overflow: hidden;
+      color: inherit;
+      cursor: default;
+      transition: border-color 160ms ease;
+    }
+
+    .artifact.viewable {
+      cursor: pointer;
+    }
+
+    .artifact.viewable:hover {
+      border-color: var(--accent-line);
+    }
+
+    .garden-icon {
+      display: grid;
+      place-items: center;
+    }
+
+    .garden-icon svg {
+      width: 46%;
+      height: 46%;
+      fill: none;
+      stroke: rgba(244, 240, 234, 0.72);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .garden-icon:hover svg {
+      stroke: var(--accent-text);
+    }
+
+    .artifact img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .emg-main-index {
+      object-fit: cover !important;
+      object-position: center 44%;
+    }
+
+    .emg-dashboard-index {
+      object-fit: contain !important;
+      object-position: center;
+      padding: 4px;
+      background: #050505;
+    }
+
+    .emg-open-pod-index {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center;
+      background: var(--panel);
+      transform: scale(1.12);
+      transform-origin: center;
+    }
+
+    .table-cad-index {
+      object-fit: contain !important;
+      object-position: center;
+      padding: 8px;
+      background: #f1f2f4;
+    }
+
+    .gear-front-frame {
+      background: linear-gradient(90deg, #d9d7ce 0 38%, #e6e6db 38% 100%);
+    }
+
+    .gear-front-fit {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      object-position: center;
+      padding: 0;
+      transform: none;
+      transform-origin: center;
+      background: transparent;
+    }
+
+    .full-yankeaur-crop {
+      object-position: left center;
+    }
+
+    .bike-cad-frame,
+    .coordinate-frame {
+      background: #f1f2f4;
+    }
+
+    .shoulder-main-frame {
+      background: #ffffff;
+    }
+
+    .bike-cad-crop,
+    .coordinate-fit,
+    .shoulder-main-fit {
+      object-fit: contain !important;
+      object-position: center;
+    }
+
+    .coordinate-fit {
+      transform: scale(1.18);
+      transform-origin: center;
+    }
+
+    .invert-drawing {
+      filter: invert(1) grayscale(1) contrast(1.35) brightness(0.82);
+      opacity: 1;
+      background: #000;
+    }
+
+    .artifact:has(.invert-drawing) {
+      background: #000;
+    }
+
+    .artifact::before {
+      content: none;
+    }
+
+    .artifact.empty {
+      box-shadow:
+        inset 0 0 0 24px var(--panel),
+        inset 0 0 0 25px var(--line-soft);
+    }
+
+    .artifact.viewable::after {
+      content: 'View Project';
+      position: absolute;
+      right: 13px;
+      bottom: 11px;
+      z-index: 2;
+      color: var(--accent-text);
+      font-family: var(--sans);
+      font-size: 9px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 160ms ease, transform 160ms ease;
+      pointer-events: none;
+    }
+
+    .artifact.viewable:hover::after {
+      opacity: 0.88;
+      transform: translateY(0);
+    }
+
+    .main-artifact {
+      min-height: var(--artifact-height);
+      height: var(--artifact-height);
+    }
+
+    .project-info {
+      min-height: var(--artifact-height);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 6px 0;
+      min-width: 0;
+    }
+
+    .project-title {
+      width: 100%;
+      max-width: var(--project-text-width);
+      margin: 0 0 16px;
+      font-family: var(--sans);
+      font-size: clamp(28px, 2.55vw, 42px);
+      line-height: 0.9;
+      font-weight: 400;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.035em;
+    }
+
+    .project-title a {
+      transition: color 160ms ease;
+    }
+
+    .project-title a:hover {
+      color: var(--accent-text);
+    }
+
+    .project:has(.main-artifact:hover) .project-title a,
+    .project:has(.main-artifact:focus-visible) .project-title a,
+    .project:has(.project-title a:hover) .project-title a,
+    .project:has(.project-title a:focus-visible) .project-title a {
+      color: var(--accent-text);
+    }
+
+    .project:has(.main-artifact:hover) .main-artifact,
+    .project:has(.main-artifact:focus-visible) .main-artifact,
+    .project:has(.project-title a:hover) .main-artifact,
+    .project:has(.project-title a:focus-visible) .main-artifact {
+      border-color: var(--accent-line);
+    }
+
+    .project:has(.main-artifact:hover) .main-artifact::before,
+    .project:has(.main-artifact:focus-visible) .main-artifact::before,
+    .project:has(.project-title a:hover) .main-artifact::before,
+    .project:has(.project-title a:focus-visible) .main-artifact::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: rgba(18, 58, 90, 0.24);
+      pointer-events: none;
+    }
+
+    .project:has(.main-artifact:hover) .main-artifact::after,
+    .project:has(.main-artifact:focus-visible) .main-artifact::after,
+    .project:has(.project-title a:hover) .main-artifact::after,
+    .project:has(.project-title a:focus-visible) .main-artifact::after {
+      opacity: 0.88;
+      transform: translateY(0);
+    }
+
+    .featured .support-artifacts a.artifact {
+      cursor: pointer;
+    }
+
+    .chamber-title {
+      font-size: clamp(26px, 2.35vw, 38px);
+      max-width: 320px;
+    }
+
+    .project-links {
+      display: flex;
+      justify-content: flex-start;
+      gap: 18px;
+      width: 100%;
+      max-width: var(--project-text-width);
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .project-links a {
+      padding: 0;
+      font-size: inherit;
+      text-transform: uppercase;
+      letter-spacing: inherit;
+      transition: color 160ms ease;
+    }
+
+    .project-links a:hover {
+      color: var(--accent-text);
+    }
+
+    .caption {
+      width: 100%;
+      max-width: var(--project-text-width);
+      color: var(--text);
+      font-family: var(--display);
+      font-size: clamp(17px, 1.45vw, 22px);
+      line-height: 1.18;
+      letter-spacing: 0.01em;
+      text-align: left;
+    }
+
+
+    .joint-series {
+      width: min(100%, var(--work-max));
+      margin: 0 auto;
+      padding: 0 0 70px;
+    }
+
+    .joint-series-header {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 24px;
+      padding-top: 44px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .joint-series-title {
+      margin: 0;
+      font-family: var(--sans);
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: 0.92;
+      font-weight: 400;
+      letter-spacing: 0.045em;
+      text-transform: uppercase;
+    }
+
+    .joint-series-type {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .joint-series-project-link {
+      display: block;
+      color: inherit;
+      outline: none;
+    }
+
+    .joint-image-group {
+      position: relative;
+      padding: 10px;
+      border: 1px solid transparent;
+      transition: border-color 160ms ease;
+    }
+
+    .joint-image-group::after {
+      content: "View Project";
+      position: absolute;
+      right: 16px;
+      bottom: 14px;
+      z-index: 3;
+      color: var(--accent-text);
+      font-family: var(--sans);
+      font-size: 9px;
+      line-height: 1;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 160ms ease, transform 160ms ease;
+      pointer-events: none;
+    }
+
+    .joint-series-project-link:hover .joint-image-group,
+    .joint-series-project-link:focus-visible .joint-image-group {
+      border-color: var(--accent-line);
+    }
+
+    .joint-series-project-link:hover .joint-image-group::after,
+    .joint-series-project-link:focus-visible .joint-image-group::after {
+      opacity: 0.88;
+      transform: translateY(0);
+    }
+
+    .joint-image-grid,
+    .joint-label-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--gap);
+    }
+
+    .joint-label-grid {
+      margin-top: 13px;
+    }
+
+    .joint-artifact {
+      position: relative;
+      min-height: 360px;
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--line-soft);
+      box-shadow:
+        inset 0 0 0 24px var(--panel),
+        inset 0 0 0 25px var(--line-soft);
+    }
+
+    .joint-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      color: rgba(244, 240, 234, 0.36);
+      font-size: 10px;
+      line-height: 1.5;
+      letter-spacing: 0.10em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .joint-title {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.05;
+      font-weight: 400;
+      letter-spacing: 0.045em;
+      text-align: center;
+      text-transform: uppercase;
+      transition: color 160ms ease;
+    }
+
+    .joint-series-project-link:hover .joint-title,
+    .joint-series-project-link:focus-visible .joint-title {
+      color: var(--accent-text);
+    }
+
+    .joint-series-title a {
+      transition: color 160ms ease;
+    }
+
+    .joint-series:hover .joint-series-title a,
+    .joint-series:focus-within .joint-series-title a {
+      color: var(--accent-text);
+    }
+
+    .supporting {
+      border-top: 1px solid var(--line-soft);
+      padding: 44px 0 56px;
+    }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap);
+    }
+
+    .support-card {
+      min-height: 260px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 13px;
+    }
+
+    .support-card .artifact {
+      aspect-ratio: 1 / 1;
+      min-height: 0;
+    }
+
+    .support-title {
+      margin: 0 0 7px;
+      font-size: 15px;
+      line-height: 1.05;
+      text-transform: uppercase;
+      font-weight: 400;
+      letter-spacing: 0.045em;
+    }
+
+    .support-title a {
+      transition: color 160ms ease;
+    }
+
+    .support-title a:hover {
+      color: var(--accent-text);
+    }
+
+    .support-card:hover .support-title a,
+    .support-card:focus-within .support-title a {
+      color: var(--accent-text);
+    }
+
+    .support-card:hover .artifact,
+    .support-card:focus-within .artifact {
+      border-color: var(--accent-line);
+    }
+
+    .support-card:hover .artifact::before,
+    .support-card:focus-within .artifact::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: rgba(18, 58, 90, 0.20);
+      pointer-events: none;
+    }
+
+    .support-card:hover .artifact::after,
+    .support-card:focus-within .artifact::after {
+      opacity: 0.88;
+      transform: translateY(0);
+    }
+
+    .support-descriptor {
+      display: block;
+      width: 100%;
+      padding: 0;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .footer {
+      border-top: 1px solid var(--line-soft);
+      padding: 32px 0 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-social {
+      display: contents;
+    }
+
+    .footer a,
+    .footer button {
+      border: 0;
+      border-bottom: 1px solid transparent;
+      padding: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      letter-spacing: inherit;
+      cursor: pointer;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .footer a:hover,
+    .footer button:hover {
+      color: var(--accent-text);
+      border-color: var(--accent-line);
+    }
+
+    .contact-dialog {
+      width: min(520px, calc(100vw - 36px));
+      margin: auto;
+      padding: 0;
+      overflow: hidden;
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--line-soft);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+    }
+
+    .contact-dialog::backdrop {
+      background: rgba(11, 7, 7, 0.72);
+      backdrop-filter: blur(3px);
+    }
+
+    .contact-card {
+      position: relative;
+      padding: 34px;
+    }
+
+    .contact-kicker {
+      margin: 0 0 10px;
+      color: var(--accent-text);
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .contact-title {
+      margin: 0 42px 12px 0;
+      font-family: var(--display);
+      font-size: clamp(30px, 4vw, 38px);
+      line-height: 0.98;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .contact-copy {
+      margin: 0 0 24px;
+      max-width: 420px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.58;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 12px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .contact-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .contact-field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .contact-field label {
+      color: rgba(244, 240, 234, 0.58);
+      font-size: 9px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .contact-field input,
+    .contact-field textarea {
+      width: 100%;
+      border: 1px solid var(--line-soft);
+      border-radius: 0;
+      padding: 11px 12px;
+      background: rgba(244, 240, 234, 0.025);
+      color: var(--text);
+      font: inherit;
+      font-size: 12px;
+      line-height: 1.45;
+      letter-spacing: 0.02em;
+      outline: none;
+      transition: border-color 160ms ease, background 160ms ease;
+    }
+
+    .contact-field input::placeholder,
+    .contact-field textarea::placeholder {
+      color: rgba(244, 240, 234, 0.30);
+    }
+
+    .contact-field input:focus,
+    .contact-field textarea:focus {
+      border-color: var(--accent-line);
+      background: rgba(244, 240, 234, 0.04);
+    }
+
+    .contact-field textarea {
+      min-height: 128px;
+      resize: vertical;
+    }
+
+    .contact-submit-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-top: 4px;
+    }
+
+    .contact-email {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .contact-email a {
+      border-bottom: 1px solid transparent;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .contact-email a:hover {
+      color: var(--text);
+      border-color: var(--line);
+    }
+
+    .contact-submit {
+      border: 1px solid var(--line);
+      padding: 10px 14px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .contact-submit:hover {
+      color: var(--accent-text);
+      border-color: var(--accent-line);
+    }
+
+    .contact-close {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      border: 0;
+      padding: 4px;
+      background: none;
+      color: var(--muted);
+      font: inherit;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      transition: color 160ms ease;
+    }
+
+    .contact-close:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 560px) {
+      .contact-card {
+        padding: 28px 22px 24px;
+      }
+
+      .contact-row {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-submit-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    .about-link,
+    .about-link:visited {
+      color: inherit;
+      border-bottom: 1px solid transparent;
+    }
+
+    .about-link:hover {
+      color: var(--accent-text);
+      border-bottom-color: var(--accent-line);
+    }
+
+    @media (max-width: 980px) {
+      :root {
+        --artifact-height: 335px;
+      }
+
+      .featured {
+        gap: 52px;
+        padding: 40px 0 54px;
+      }
+
+      .site-header {
+        min-height: 260px;
+      }
+
+      .project,
+      .project.reverse {
+        grid-template-columns: 1fr;
+      }
+
+      .project.reverse .project-info,
+      .project.reverse .main-artifact,
+      .project.reverse .support-artifacts {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
+      .project-info,
+      .project.reverse .project-info {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(240px, 1fr) minmax(220px, 0.85fr);
+        column-gap: var(--gap);
+        row-gap: 0;
+        align-items: start;
+        order: 1;
+      }
+
+      .project-title {
+        grid-column: 1;
+        grid-row: 1;
+        max-width: 360px;
+        font-size: clamp(32px, 4vw, 48px);
+        line-height: 0.9;
+        margin-bottom: 14px;
+      }
+
+      .chamber-title {
+        font-size: clamp(30px, 3.7vw, 44px);
+        max-width: 360px;
+      }
+
+      .project-links {
+        grid-column: 1;
+        grid-row: 2;
+        max-width: 360px;
+        margin: 4px 0 0;
+        align-self: start;
+      }
+
+      .caption {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: start;
+        width: 100%;
+        max-width: none;
+        margin-top: 8px;
+        padding-bottom: 24px;
+        text-align: left;
+      }
+
+      .main-artifact {
+        order: 2;
+        min-height: var(--artifact-height);
+        height: var(--artifact-height);
+      }
+
+      .support-artifacts {
+        order: 3;
+        height: auto;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: none;
+      }
+
+      .support-artifacts .artifact {
+        min-height: 150px;
+        height: 150px;
+      }
+
+      /* EMG framing for the actual split-view breakpoint */
+      .emg-main-index {
+        object-fit: cover !important;
+        object-position: center bottom;
+        padding: 0;
+        background: var(--panel);
+      }
+
+      .emg-dashboard-index {
+        object-fit: cover !important;
+        object-position: center 78%;
+        padding: 0;
+        background: #050505;
+      }
+
+      .emg-open-pod-index {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        object-position: center;
+        padding: 0;
+        transform: scale(1.10);
+        transform-origin: center;
+        background: #cfcec9;
+      }
+
+      .support-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 620px) {
+      :root {
+        --artifact-height: 300px;
+      }
+
+      .page {
+        padding-inline: 22px;
+      }
+
+      .site-header {
+        min-height: 230px;
+      }
+
+      .name {
+        font-size: 62px;
+      }
+
+      .project-info,
+      .project.reverse .project-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .project-title,
+      .project-links,
+      .caption {
+        max-width: none;
+      }
+
+      .caption {
+        margin-top: 0;
+      }
+
+      .joint-image-grid,
+      .joint-label-grid,
+      .support-artifacts,
+      .support-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .joint-label-grid {
+        gap: 18px;
+      }
+
+      .joint-artifact {
+        min-height: 300px;
+      }
+
+      .footer-social,
+      .footer {
+        flex-wrap: wrap;
+      }
+    }
+  
+
+/* Match PDF-link typography used on project pages */
+    .header-pdf-link {
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+</style>
+</head>
+
+<body>
+  <main class="page">
+    <header class="site-header">
+      <a class="header-pdf-link" href="pdfs/Full_Portfolio_Dark.pdf" target="_blank" rel="noopener">
+        PDF Version
+      </a>
+
+      <div>
+        <h1 class="name">
+          <a class="name-link" href="aboutme.html">
+            Brooklyn<br>Claeys
+          </a>
+        </h1>
+
+        <div class="identity">
+          <span>Mechanical Engineering | Biomedical Minor</span>
+          <span>University of Calgary</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="featured" aria-label="Featured work">
+
+      <!-- Bicycle research overview page linked below. -->
+      <article class="project">
+        <div class="support-artifacts">
+          <a
+            class="artifact bike-cad-frame"
+            href="projects_/Bike/bicycle.html"
+            data-label="Model"
+            aria-label="View 3D Bicycle Dynamics Research project"
+          >
+            <img
+              class="bike-cad-crop"
+              src="photos-main/labeled_bike_CAD.JPG"
+              alt="Labelled four-body bicycle CAD model"
+            >
+          </a>
+          <a
+            class="artifact coordinate-frame"
+            href="projects_/Bike/bicycle.html"
+            data-label="Validation"
+            aria-label="View 3D Bicycle Dynamics Research project"
+          >
+            <img
+              class="coordinate-fit"
+              src="photos-main/cooridnate_tsf.png"
+              alt="Bicycle coordinate transformation diagram"
+            >
+          </a>
+        </div>
+
+        <a
+          class="artifact main-artifact viewable"
+          href="projects_/Bike/bicycle.html"
+          data-label="System"
+          aria-label="View 3D Bicycle Dynamics Research project"
+        >
+          <img
+            src="photos-main/bike_sensors.JPG"
+            alt="Instrumented bicycle used for experimental dynamics research"
+          >
+        </a>
+
+        <div class="project-info">
+          <h2 class="project-title">
+            <a href="projects_/Bike/bicycle.html">
+              3D Bicycle<br>Dynamics Research
+            </a>
+          </h2>
+
+          <div class="project-links">
+            <span>PURE Research</span>
+          </div>
+
+          <div class="caption">
+            Developing and validating a multibody bicycle dynamics model in MATLAB.
+          </div>
+        </div>
+      </article>
+
+      <!-- Shoulder-joint overview page linked below. -->
+      <article class="project reverse">
+        <div class="project-info">
+          <h2 class="project-title chamber-title">
+            <a href="projects_/bmeirt-shoulder/shoulder.html">
+              Yankeaur Assistive<br>Robotic Arm
+            </a>
+          </h2>
+
+          <div class="project-links">
+            <span>BMERIT · Biomechanical Systems Team</span>
+          </div>
+
+          <div class="caption">
+            Designing a planetary shoulder-joint prototype for an assistive robotic arm.
+          </div>
+        </div>
+
+        <a
+          class="artifact main-artifact viewable shoulder-main-frame"
+          href="projects_/bmeirt-shoulder/shoulder.html"
+          data-label="System"
+          aria-label="View Yankeaur Assistive Robotic Arm project"
+        >
+          <img
+            class="shoulder-main-fit"
+            src="photos-main/shoulder_joint.png"
+            alt="Planetary shoulder-joint prototype for the Yankeaur assistive robotic arm"
+          >
+        </a>
+
+        <div class="support-artifacts">
+          <a
+            class="artifact gear-front-frame"
+            href="projects_/bmeirt-shoulder/shoulder.html"
+            data-label="Assembly Drawing"
+            aria-label="View Yankeaur Assistive Robotic Arm project"
+          >
+            <img
+              class="gear-front-fit"
+              src="photos-main/cad_drawing_zoom.png"
+              alt="Engineering drawing of the revised shoulder-joint assembly"
+            >
+          </a>
+          <a
+            class="artifact"
+            href="projects_/bmeirt-shoulder/shoulder.html"
+            data-label="Assembly"
+            aria-label="View Yankeaur Assistive Robotic Arm project"
+          >
+            <img
+              class="full-yankeaur-crop"
+              src="photos-main/fullyankeour.png"
+              alt="Full Yankeaur assistive robotic arm assembly"
+            >
+          </a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="support-artifacts">
+          <a
+            class="artifact"
+            href="projects_/emg/emgband.html"
+            data-label="Dashboard"
+            aria-label="View Wearable EMG and IMU Exercise Analysis project"
+          >
+            <img
+              class="emg-dashboard-index"
+              src="photos-main/dashboard_em.png"
+              alt="Live exercise dashboard for the wearable EMG and motion-sensing system"
+            >
+          </a>
+          <a
+            class="artifact"
+            href="projects_/emg/emgband.html"
+            data-label="Open Electronics"
+            aria-label="View Wearable EMG and IMU Exercise Analysis project"
+          >
+            <img
+              class="emg-open-pod-index"
+              src="projects_/emg/emg_photos/opeN_pod.jpeg"
+              alt="Open electronics assembly showing internal wiring and hardware"
+            >
+          </a>
+        </div>
+
+        <a
+          class="artifact main-artifact viewable"
+          href="projects_/emg/emgband.html"
+          data-label="Wearable System"
+          aria-label="View Wearable EMG and IMU Exercise Analysis project"
+        >
+          <img
+            class="emg-main-index"
+            src="projects_/emg/emg_photos/emg_wear1.jpeg"
+            alt="Wearable EMG and motion-sensing sleeve worn during a biceps curl"
+          >
+        </a>
+
+        <div class="project-info">
+          <h2 class="project-title">
+            <a href="projects_/emg/emgband.html">
+              Wearable EMG + IMU<br>Exercise Analysis
+            </a>
+          </h2>
+
+          <div class="project-links">
+            <span>Personal Project</span>
+          </div>
+
+          <div class="caption">
+            Developed a wearable EMG and motion-sensing system for exercise analysis.
+          </div>
+        </div>
+      </article>
+    </section>
+
+
+    <section class="supporting" aria-label="Supporting work">
+      <div class="support-grid">
+
+        <article class="support-card">
+          <a
+            class="artifact viewable"
+            href="projects_/control_chamber/chamber.html"
+            aria-label="View Controlled-Environment Chamber project"
+          >
+            <img
+              src="photos-main/wiring.jpeg"
+              alt="Environmental chamber controller wiring"
+            >
+          </a>
+
+          <div>
+            <h3 class="support-title">
+              <a href="projects_/control_chamber/chamber.html">
+                Controlled-Environment Chamber
+              </a>
+            </h3>
+
+            <div class="support-descriptor">
+              Controls · Electronics · Validation
+            </div>
+          </div>
+        </article>
+
+        <article class="support-card">
+          <a
+            class="artifact viewable"
+            href="projects_/Table/table_summary.html"
+            aria-label="View Scissor-Lift Workbench project"
+          >
+            <img
+              class="table-cad-index"
+              src="photos-main/table_main.png"
+              alt="Scissor-lift workbench CAD drawing"
+            >
+          </a>
+
+          <div>
+            <h3 class="support-title">
+              <a href="projects_/Table/table_summary.html">
+                Scissor-Lift Workbench
+              </a>
+            </h3>
+
+            <div class="support-descriptor">
+              CAD · Tolerancing · Assembly
+            </div>
+          </div>
+        </article>
+
+        <article class="support-card">
+          <a
+            class="artifact viewable"
+            href="projects_/robot/robot%20(1).html"
+            aria-label="View Mini Delivery Robot project"
+          >
+            <img
+              src="photos-main/ROBOT.jpg"
+              alt="Mini delivery robot prototype"
+            >
+          </a>
+
+          <div>
+            <h3 class="support-title">
+              <a href="projects_/robot/robot%20(1).html">
+                Mini Delivery Robot
+              </a>
+            </h3>
+
+            <div class="support-descriptor">
+              Mechatronics · Wiring · Prototyping
+            </div>
+          </div>
+        </article>
+
+        <article class="support-card">
+          <a
+            class="artifact viewable"
+            href="projects_/garden/garden.html"
+            aria-label="View Portable Indoor Garden project"
+          >
+            <img
+              src="photos-main/plant_pot_leaves.png"
+              alt="White line-art plant in a pot"
+            >
+          </a>
+
+          <div>
+            <h3 class="support-title">
+              <a href="projects_/garden/garden.html">
+                Portable Indoor Garden
+              </a>
+            </h3>
+
+            <div class="support-descriptor">
+              CAD · Electronics · Assembly
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <footer class="footer">
+      <button type="button" id="contact-open" aria-haspopup="dialog" aria-controls="contact-dialog">
+        Contact
+      </button>
+      <span aria-hidden="true">·</span>
+      <a class="about-link" href="aboutme.html">About Me</a>
+    </footer>
+
+    <dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-title">
+      <div class="contact-card">
+        <button class="contact-close" type="button" aria-label="Close contact panel">×</button>
+
+        <h2 class="contact-title" id="contact-title">Contact Me</h2>
+        <p class="contact-copy">
+          Have a project, research opportunity, or idea worth talking about? I’d love to connect! Send a note below or reach me directly at 5brooklync15@gmail.com.
+        </p>
+
+        <form class="contact-form" id="contact-form">
+          <div class="contact-row">
+            <div class="contact-field">
+              <label for="contact-name">Name</label>
+              <input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Your name">
+            </div>
+
+            <div class="contact-field">
+              <label for="contact-reply">Email</label>
+              <input id="contact-reply" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="contact-field">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" required placeholder="Your message"></textarea>
+          </div>
+
+          <div class="contact-submit-row">
+            <button class="contact-submit" type="submit">Send message →</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+  </main>
+
+  <script>
+    const contactDialog = document.getElementById('contact-dialog');
+    const contactOpen = document.getElementById('contact-open');
+    const contactClose = contactDialog.querySelector('.contact-close');
+    const contactForm = document.getElementById('contact-form');
+
+    contactOpen.addEventListener('click', () => contactDialog.showModal());
+    contactClose.addEventListener('click', () => contactDialog.close());
+
+    contactDialog.addEventListener('click', (event) => {
+      const rect = contactDialog.getBoundingClientRect();
+      const inside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+
+      if (!inside) contactDialog.close();
+    });
+
+    contactForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const name = document.getElementById('contact-name').value.trim();
+      const replyEmail = document.getElementById('contact-reply').value.trim();
+      const message = document.getElementById('contact-message').value.trim();
+
+      const subject = name ? `Portfolio contact — ${name}` : 'Portfolio contact';
+      const bodyParts = [];
+
+      if (name) bodyParts.push(`Name: ${name}`);
+      if (replyEmail) bodyParts.push(`Reply email: ${replyEmail}`);
+      if (name || replyEmail) bodyParts.push('');
+      bodyParts.push(message);
+
+      const mailto = `mailto:5brooklync15@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyParts.join('\n'))}`;
+      window.location.href = mailto;
+    });
+  </script>
+</body>
+</html>

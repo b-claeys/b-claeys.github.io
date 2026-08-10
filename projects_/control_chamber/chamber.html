@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Environmental Control Chamber | Brooklyn Claeys</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --bg: #0b0707;
+      --panel: #100c0c;
+      --panel-soft: rgba(244, 240, 234, 0.026);
+      --text: #f4f0ea;
+      --muted: #aaa39a;
+      --line: rgba(244, 240, 234, 0.30);
+      --line-soft: rgba(244, 240, 234, 0.13);
+      --accent-line: #123a5a;
+      --accent-text: #6fa0c8;
+      --paper: #f4f2ed;
+      --display: "Cormorant Garamond", Georgia, serif;
+      --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      letter-spacing: 0.02em;
+      scrollbar-color:
+        rgba(244, 240, 234, 0.28)
+        rgba(11, 7, 7, 0.78);
+      scrollbar-width: thin;
+    }
+
+    *::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: rgba(11, 7, 7, 0.78);
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: rgba(244, 240, 234, 0.24);
+      border: 2px solid rgba(11, 7, 7, 0.78);
+      border-radius: 999px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .background-context {
+      position: fixed;
+      inset: 0;
+      padding: 42px clamp(22px, 4.6vw, 72px);
+      opacity: 0.1;
+      filter: blur(1.5px);
+      pointer-events: none;
+    }
+
+    .ghost-header {
+      height: 250px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .ghost-name {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(80px, 12vw, 150px);
+      line-height: 0.76;
+      text-transform: uppercase;
+    }
+
+    .ghost-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(18px, 2vw, 30px);
+      margin-top: 48px;
+    }
+
+    .ghost-block {
+      height: 340px;
+      background: var(--panel);
+      border: 1px solid var(--line-soft);
+    }
+
+    .overlay-wrap {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 42px 22px;
+    }
+
+    .summary-panel {
+      width: min(960px, 90vw);
+      max-height: 88vh;
+      overflow: auto;
+      padding: clamp(26px, 3.8vw, 48px);
+      background: rgba(11, 7, 7, 0.965);
+      border: 1px solid var(--line-soft);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    .panel-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(34px, 4.8vw, 56px);
+      line-height: 0.9;
+      font-weight: 400;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+    }
+
+    .pdf-link {
+      justify-self: end;
+      width: fit-content;
+      padding-bottom: 4px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      font-size: 11px;
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .pdf-link:hover {
+      color: var(--accent-text);
+      border-color: var(--accent-line);
+    }
+
+    .project-type {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .summary-intro {
+      max-width: 850px;
+      margin: 0 0 28px;
+      color: rgba(244, 240, 234, 0.76);
+      font-size: 13px;
+      line-height: 1.58;
+      letter-spacing: 0.025em;
+    }
+
+    .summary-grid,
+    .design-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-bottom: 18px;
+    }
+
+    .summary-card {
+      padding: 18px;
+      background: var(--panel-soft);
+      border: 1px solid var(--line-soft);
+    }
+
+    .summary-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .summary-card h2 {
+      margin: 0 0 14px;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-heading {
+      margin: 0 0 16px;
+      color: rgba(244, 240, 234, 0.86);
+      font-family: var(--display);
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.025em;
+      text-transform: none;
+    }
+
+    .summary-card > p {
+      max-width: 850px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      letter-spacing: 0.035em;
+    }
+
+    .visual-card,
+    .evidence-card {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 11px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(244, 240, 234, 0.10);
+    }
+
+    .visual-card h3,
+    .evidence-card h3 {
+      margin: 0;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.095em;
+      text-transform: uppercase;
+    }
+
+    .visual-card p,
+    .evidence-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.42;
+      letter-spacing: 0.035em;
+    }
+
+    .media-frame {
+      position: relative;
+      width: 100%;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--line-soft);
+      box-shadow:
+        inset 0 0 0 14px var(--panel),
+        inset 0 0 0 15px var(--line-soft);
+    }
+
+    .media-frame img,
+    .media-frame video {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-card {
+      margin-bottom: 24px;
+    }
+
+    .hero-frame {
+      position: relative;
+      aspect-ratio: 21 / 8;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .hero-frame video {
+      position: absolute;
+      left: 0;
+      top: -50%;
+      width: 100%;
+      height: 200%;
+      object-fit: cover;
+      object-position: center center;
+      background: #000;
+    }
+
+    .system-list {
+      display: grid;
+      margin-top: 4px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .system-row {
+      display: grid;
+      grid-template-columns: 0.29fr 1fr;
+      gap: 18px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(244, 240, 234, 0.10);
+    }
+
+    .system-row strong,
+    .system-row span {
+      font-size: 11px;
+      line-height: 1.48;
+      letter-spacing: 0.04em;
+    }
+
+    .system-row strong {
+      color: var(--text);
+      font-weight: 500;
+      letter-spacing: 0.075em;
+      text-transform: uppercase;
+    }
+
+    .system-row span {
+      color: var(--muted);
+    }
+
+    .design-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 16px;
+    }
+
+    .design-grid .media-frame {
+      height: 340px;
+    }
+
+    .swap-card,
+    .swap-image {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .swap-card {
+      outline: none;
+    }
+
+    .swap-image img {
+      position: absolute;
+      inset: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .default-image {
+      opacity: 1;
+    }
+
+    .hover-image {
+      opacity: 0;
+    }
+
+    .swap-card:hover .default-image,
+    .swap-card:focus-visible .default-image {
+      opacity: 0;
+    }
+
+    .swap-card:hover .hover-image,
+    .swap-card:focus-visible .hover-image {
+      opacity: 1;
+    }
+
+    .cad-image {
+      object-fit: contain;
+      object-position: center;
+      padding: 10px;
+      background: var(--paper);
+      filter: saturate(0.78) contrast(1.02) brightness(0.99);
+    }
+
+    .chamber-image {
+      object-fit: cover;
+      object-position: center;
+      background: #000;
+      filter: saturate(0.86) contrast(1.03) brightness(0.92);
+    }
+
+    .validation-card {
+      margin-top: 18px;
+    }
+
+    .validation-frame {
+      aspect-ratio: 5 / 3;
+      background: #050505;
+      box-shadow:
+        inset 0 0 0 8px #050505,
+        inset 0 0 0 9px var(--line-soft);
+    }
+
+    .validation-frame img {
+      object-fit: contain;
+      object-position: center;
+      padding: 6px;
+      background: #050505;
+    }
+
+    .project-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+      margin-top: 38px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .all-projects-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      color: rgba(244, 240, 234, 0.48);
+      font-size: 9px;
+      line-height: 1;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      transition: color 160ms ease;
+    }
+
+    .all-projects-link:hover {
+      color: var(--text);
+    }
+
+    .next-project-link {
+      display: grid;
+      justify-items: end;
+      gap: 7px;
+      text-align: right;
+    }
+
+    .next-project-label {
+      color: rgba(244, 240, 234, 0.42);
+      font-size: 9px;
+      line-height: 1;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .next-project-title {
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 160ms ease;
+    }
+
+    .next-project-link:hover .next-project-title {
+      color: var(--accent-text);
+    }
+
+    @media (max-width: 760px) {
+      .background-context {
+        opacity: 0.08;
+        filter: blur(1px);
+      }
+
+      .overlay-wrap {
+        padding: 18px;
+      }
+
+      .summary-panel {
+        width: min(100%, 620px);
+        max-height: 92vh;
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: 36px;
+        line-height: 0.92;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .summary-card {
+        padding: 16px;
+      }
+
+      .system-row {
+        grid-template-columns: 0.4fr 1fr;
+        gap: 12px;
+      }
+
+      .design-grid {
+        gap: 12px;
+      }
+
+      .design-grid .media-frame {
+        height: 260px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .design-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .design-grid .media-frame {
+        height: 300px;
+      }
+
+      .validation-frame {
+        aspect-ratio: 4 / 3;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .panel-top {
+        grid-template-columns: 1fr;
+      }
+
+      .pdf-link {
+        justify-self: start;
+      }
+
+      .system-row {
+        grid-template-columns: 1fr;
+        gap: 3px;
+      }
+
+      .project-footer {
+        grid-template-columns: 1fr auto;
+        gap: 14px;
+      }
+
+      .next-project-title {
+        font-size: 12px;
+      }
+    }
+  
+
+/* Unified project header */
+    .panel-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 22px;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+
+    .project-header-copy {
+      min-width: 0;
+    }
+
+    .project-header-copy .project-type {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 10px;
+      line-height: 1.25;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .project-header-copy .project-type + .project-type {
+      margin-top: 5px;
+    }
+
+    .pdf-link {
+      justify-self: end;
+      align-self: start;
+      display: inline-block;
+      width: fit-content;
+      margin: 2px 0 0;
+      padding-bottom: 4px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      font-family: var(--sans);
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .pdf-link:hover {
+      color: var(--accent-text);
+      border-color: var(--accent-line);
+    }
+
+    @media (max-width: 520px) {
+      .panel-top {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 14px;
+      }
+
+      .pdf-link {
+        justify-self: end;
+      }
+    }
+</style>
+</head>
+
+<body>
+  <div class="background-context" aria-hidden="true">
+    <div class="ghost-header">
+      <p class="ghost-name">
+        Brooklyn<br>
+        Claeys
+      </p>
+    </div>
+
+    <div class="ghost-grid">
+      <div class="ghost-block"></div>
+      <div class="ghost-block"></div>
+      <div class="ghost-block"></div>
+    </div>
+  </div>
+
+  <main class="overlay-wrap">
+    <article
+      class="summary-panel"
+      aria-label="Environmental Control Chamber project summary"
+    >
+      <div class="panel-top">
+        <div class="project-header-copy">
+          <h1>
+            Environmental<br>
+            Control Chamber
+          </h1>
+          <p class="project-type">Personal Project</p>
+        </div>
+
+        <a class="pdf-link" href="../../pdfs/Environmental_Control_Chamber.pdf" target="_blank" rel="noopener">PDF Version</a>
+      </div>
+
+      <p class="summary-intro">
+        I designed and built an ESP32-controlled environmental chamber to
+        reproduce target temperature, humidity, airflow, and surface-wetness
+        conditions from live weather-station data or manually defined setpoints.
+        The system was developed with a farmer to reduce repeated field visits
+        during weather-sensitive crop-disease testing by reproducing outdoor
+        conditions in a remotely monitored chamber.
+      </p>
+
+      <section class="hero-card">
+        <article class="visual-card">
+          <div class="media-frame hero-frame">
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              controls
+              preload="metadata"
+            >
+              <source
+                src="Showcase1.mp4"
+                type="video/mp4"
+              >
+            </video>
+          </div>
+
+          <h3>Field-Matching Test</h3>
+
+          <p>
+            Dashboard and chamber response during a field-matching test, showing
+            target conditions, measured conditions, and actuator response.
+          </p>
+        </article>
+      </section>
+
+      <section class="summary-grid">
+
+        <section class="summary-card full">
+          <h2 class="section-heading">Project Overview</h2>
+
+          <div class="system-list">
+            <div class="system-row">
+              <strong>Sensing + Targets</strong>
+
+              <span>
+                Temperature, relative humidity, and soil moisture measured inside
+                the chamber and compared against live Ecowitt weather-station data
+                or manually defined target values.
+              </span>
+            </div>
+
+            <div class="system-row">
+              <strong>Actuation</strong>
+
+              <span>
+                Peltier cooling, resistive heating, blower and circulation fans,
+                a humidifier, and water-delivery pump used to regulate temperature,
+                humidity, airflow, and surface wetness.
+              </span>
+            </div>
+
+            <div class="system-row">
+              <strong>Mechanical Design</strong>
+
+              <span>
+                Clear dual-wall enclosure with an insulating air gap, silicone
+                and weather-strip sealing, and a magnetic door closure. A plenum
+                mixes conditioned air before chamber entry, with vent placement
+                directing flow across the upper test volume and away from the soil.
+              </span>
+            </div>
+
+            <div class="system-row">
+              <strong>Electrical + Software</strong>
+
+              <span>
+                An ESP32 switches separate 12 V actuator branches through MOSFETs
+                and shared power distribution. The control logic prevents
+                simultaneous heating and cooling, applies timed humidifier and pump
+                pulses with lockout periods, rejects invalid sensor readings,
+                updates the dashboard, and logs test data.
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section class="summary-card full">
+          <h2>CAD Design</h2>
+
+          <div class="design-grid">
+            <article class="visual-card">
+              <div
+                class="swap-card"
+                tabindex="0"
+                aria-label="Chamber assembly and airflow duct CAD views"
+              >
+                <div class="media-frame">
+                  <div class="swap-image">
+                    <img
+                      class="default-image cad-image"
+                      src="Environmental_Chamber_Portfolio_Working_Files/02_CAD_and_Design/01_Chamber_Assembly_Front_Isometric.png"
+                      alt="Front isometric CAD view of the chamber"
+                    >
+
+                    <img
+                      class="hover-image cad-image"
+                      src="Environmental_Chamber_Portfolio_Working_Files/02_CAD_and_Design/03_Airflow_Duct_Isometric.png"
+                      alt="Isometric CAD view of the chamber airflow duct"
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <h3>Vents + Airflow Path</h3>
+
+              <p>
+                Vent and plenum geometry used to route conditioned air from the
+                thermal module into the chamber and distribute it across the upper
+                test volume.
+              </p>
+            </article>
+
+            <article class="visual-card">
+              <div class="media-frame">
+                <img
+                  class="chamber-image"
+                  src="Environmental_Chamber_Portfolio_Working_Files/01_Physical_Chamber_Photos/01_Chamber_Final_Hero.jpg"
+                  alt="Completed environmental control chamber"
+                >
+              </div>
+
+              <h3>Full Chamber</h3>
+
+              <p>
+                Dual-wall enclosure with silicone and weather-strip sealing,
+                magnetic door closure, clear sample access, and space for the
+                thermal, humidification, water-delivery, and sensing hardware.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="summary-card full">
+          <h2>Testing + Validation</h2>
+
+          <p>
+            System tests measured how chamber temperature, humidity, and surface
+            wetness changed in response to each actuator. I used these runs to tune
+            activation timing and pulse duration, add heating and cooling mutual
+            exclusion, and set humidifier and pump lockout periods so the chamber
+            approached target conditions without repeated overshoot. The control
+            sequence also includes a startup period before field matching begins,
+            allowing the sensors and chamber conditions to stabilize before tracking.
+          </p>
+
+          <article class="evidence-card validation-card">
+            <div
+              class="swap-card"
+              tabindex="0"
+              aria-label="Full field-matching and pump wetness-response validation graphs"
+            >
+              <div class="media-frame validation-frame">
+                <div class="swap-image">
+                  <img
+                    class="default-image"
+                    src="Environmental_Chamber_Portfolio_Working_Files/04_Results_and_Validation/01_Field_Matching_Full_Run.png"
+                    alt="Full field temperature and humidity matching run"
+                  >
+
+                  <img
+                    class="hover-image"
+                    src="Environmental_Chamber_Portfolio_Working_Files/04_Results_and_Validation/06_Pump_Wetness_Response.png"
+                    alt="Measured pump and wetness response"
+                  >
+                </div>
+              </div>
+            </div>
+
+            <h3>System Response</h3>
+
+            <p>
+              Field-matching run: mean absolute error of 0.28°C for temperature
+              and 1.94 percentage points for relative humidity over the 77.2-minute
+              settled window. Pump testing recorded the corresponding surface-wetness
+              response after water delivery.
+            </p>
+          </article>
+        </section>
+
+      </section>
+
+      <footer
+        class="project-footer"
+        aria-label="Project navigation"
+      >
+        <a class="all-projects-link" href="../../index.html">
+          <span aria-hidden="true">←</span>
+          <span>Back to all projects</span>
+        </a>
+
+        <a class="next-project-link" href="../Table/table_summary.html">
+          <span class="next-project-label">Next project</span>
+          <span class="next-project-title">Scissor-Lift Workbench</span>
+        </a>
+      </footer>
+    </article>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll("video[autoplay]").forEach(function (video) {
+        video.muted = true;
+        video.volume = 0;
+        video.playsInline = true;
+
+        video.addEventListener("volumechange", function () {
+          if (!video.muted || video.volume !== 0) {
+            video.muted = true;
+            video.volume = 0;
+          }
+        });
+
+        const playPromise = video.play();
+
+        if (playPromise !== undefined) {
+          playPromise.catch(function () {
+            video.controls = true;
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

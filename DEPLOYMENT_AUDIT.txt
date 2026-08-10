@@ -1,0 +1,117 @@
+BROOKLYN CLAEYS PORTFOLIO — DEPLOYMENT AUDIT
+
+SOURCE-OF-TRUTH POLICY
+The nine HTML pages supplied in the current conversation were used as the source of
+truth. Older HTML revisions in the file library were not substituted.
+
+HTML CONTENT CHANGES
+No redesign, copy rewrite, CSS cleanup, responsive-layout change, hover-behavior
+change, crop change, ordering change, or navigation redesign was made.
+
+Only these source references were changed:
+1. aboutme.html
+   - Replaced the local absolute headshot path with: photos-main/headshot.jpg
+
+2. projects_/bmeirt-shoulder/shoulder.html
+   - Replaced four local absolute media references with project-relative paths:
+     phots/motor_casing.png
+     phots/shoulder_Assem_Draw.png
+     phots/solidworks_vid.mp4
+     phots/explodedcad.png
+
+3. projects_/garden/garden.html
+   - Wiring Layout image changed to:
+     garden_project_files/01_selected_images/garden_light.jpg
+   - Pump Placement image changed to:
+     garden_project_files/01_selected_images/garden_cover_frame_detail_05_thumbnail.jpg
+
+All other supplied HTML content was copied unchanged. Revision-suffixed upload names
+were renamed only at the filesystem level to the canonical filenames already used by
+the current HTML.
+
+LINK / PATH AUDIT
+- HTML pages checked: 9
+- Local src/href/poster references checked: 126
+- Unique local targets checked over a case-sensitive local HTTP server: 82
+- Missing local targets: 0
+- HTTP failures for unique local targets: 0
+- Local-machine absolute-path references remaining in HTML: 0
+- Intentional external resources preserved: Google Fonts
+- Intentional protocol links preserved: email and telephone links
+
+LIVE PDF FILES INCLUDED
+- Full_Portfolio_Dark.pdf
+- Bicycle_Dynamics.pdf
+- Adaptive_Yankauer.pdf
+- Environmental_Control_Chamber.pdf
+- wearable_emg.pdf
+- Scissor_Lift.pdf
+
+SOURCE FILES DETERMINED UNUSED BY THE CURRENT HTML
+These were not copied into the deployment folder because no current page references
+them, or because they were superseded by the explicitly requested Garden swaps:
+
+PDFs
+- _Main_Handout_White(2).pdf
+- _Main_HandoutDark(2).pdf
+- full_portfolio_white.pdf
+- summary_portfolio_dark.pdf
+- summary_portfolio_white.pdf
+
+Standalone images / alternate figures
+- gears_(1).png
+- corrdinate(1).png
+- eqsgraphs3(1).png
+- 02_Chamber_With_Live_Dashboard(1).jpg
+- 03_Chamber_Interior_Front_View(1).jpg
+- 04_Airflow_and_Thermal_Subsystem(1).jpg
+- 05_Controller_Electronics_Assembly(1).jpg
+- 06_Chamber_Rear_Airflow_Assembly(1).jpg
+- 07_Early_Prototype_Iteration(1).jpg
+- 02_Chamber_Assembly_Rear_Isometric(1).png
+- 04_Vent_Module_Isometric(1).png
+- 02_Field_Matching_Settled_Window(2).png
+- garden_cover.jpg
+- garden_electronics_wiring_test_06_thumbnail.jpg (superseded by garden_light.jpg)
+- garden_enclosure_cover_access_04_thumbnail.jpg
+- garden_pump_hose_inside_view_03_thumbnail.jpg (superseded by requested pump-placement image)
+
+Source archives were used only to recover exact referenced assets and were not copied
+wholesale into the deployment folder:
+- photos.zip
+- emg_photos.zip
+- eng200_project_files_cleaned.zip
+
+NOT ALTERED / NOT INVENTED
+- No favicon or branding asset was invented.
+- No new visible SEO copy was added.
+- No external JavaScript libraries were added.
+- Existing Google Fonts links were preserved.
+- Existing video controls/autoplay/muting behavior was preserved.
+- Existing contact-form behavior was preserved.
+
+UNVERIFIABLE / HOST-DEPENDENT ITEMS
+- A pixel-for-pixel comparison against the original site running from the user's
+  Windows machine cannot be performed here because that original rendered instance
+  is not available. The supplied HTML/CSS is unchanged except for the path changes
+  and two requested Garden image substitutions listed above.
+- Google Fonts requires network access from the visitor's browser.
+- The Garden QuickTime video and EMG QuickTime fallback are preserved exactly;
+  playback support can vary by browser/platform.
+- The exact media was not recompressed. The site is approximately 343 MB and the
+  chamber Showcase1 MP4 is approximately 118 MB; static hosts may impose their own
+  upload or individual-file limits.
+
+Update after delivery: garden hero image replaced with user-provided final photo in all live display locations (project page hero and homepage garden card image).
+
+WEB-OPTIMIZED DELIVERY BUILD
+- Created because the original lossless asset package exceeded the chat attachment limit.
+- All 125 live local references resolve; 0 missing targets.
+- No C:\\, file://, localhost, 127.0.0.1, or OneDrive references remain.
+- Images and PDFs are unchanged from the final approved build.
+- Oversized autoplay videos were re-encoded to H.264 for smaller web delivery while preserving duration and page behavior:
+  * Environmental chamber Showcase1.mp4: 1280x720, 120.73 s
+  * EMG emg_vid.mp4: 1280x772, 36.67 s
+  * Yankauer solidworks_vid.mp4: 1280x720, 26.37 s
+- Redundant EMG emg_vid.mov fallback removed; the MP4 source remains.
+- Final garden hero update is included on both the garden project hero and homepage garden card.

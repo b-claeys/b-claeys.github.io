@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Wearable EMG + Motion-Sensing Sleeve | Brooklyn Claeys</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --bg: #0b0707;
+      --panel: #100c0c;
+      --panel-soft: rgba(244, 240, 234, 0.026);
+      --text: #f4f0ea;
+      --muted: #aaa39a;
+      --line: rgba(244, 240, 234, 0.30);
+      --line-soft: rgba(244, 240, 234, 0.13);
+      --accent-line: #123a5a;
+      --accent-text: #6fa0c8;
+      --paper: #f4f2ed;
+      --display: "Cormorant Garamond", Georgia, serif;
+      --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      letter-spacing: 0.02em;
+      scrollbar-color:
+        rgba(244, 240, 234, 0.28)
+        rgba(11, 7, 7, 0.78);
+      scrollbar-width: thin;
+    }
+
+    *::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: rgba(11, 7, 7, 0.78);
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: rgba(244, 240, 234, 0.24);
+      border: 2px solid rgba(11, 7, 7, 0.78);
+      border-radius: 999px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .background-context {
+      position: fixed;
+      inset: 0;
+      padding: 42px clamp(22px, 4.6vw, 72px);
+      opacity: 0.1;
+      filter: blur(1.5px);
+      pointer-events: none;
+    }
+
+    .ghost-header {
+      height: 250px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .ghost-name {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(80px, 12vw, 150px);
+      line-height: 0.76;
+      text-transform: uppercase;
+    }
+
+    .ghost-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(18px, 2vw, 30px);
+      margin-top: 48px;
+    }
+
+    .ghost-block {
+      height: 340px;
+      background: var(--panel);
+      border: 1px solid var(--line-soft);
+    }
+
+    .overlay-wrap {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 42px 22px;
+    }
+
+    .summary-panel {
+      width: min(960px, 90vw);
+      max-height: 88vh;
+      overflow: auto;
+      padding: clamp(26px, 3.8vw, 48px);
+      background: rgba(11, 7, 7, 0.965);
+      border: 1px solid var(--line-soft);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    .panel-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(34px, 4.8vw, 56px);
+      line-height: 0.9;
+      font-weight: 400;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+    }
+
+    .pdf-link {
+      justify-self: end;
+      width: fit-content;
+      padding-bottom: 4px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      font-size: 11px;
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .pdf-link:hover {
+      color: var(--accent-text);
+      border-color: var(--accent-line);
+    }
+
+    .project-type {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .summary-intro {
+      max-width: 850px;
+      margin: 0 0 28px;
+      color: rgba(244, 240, 234, 0.76);
+      font-size: 13px;
+      line-height: 1.58;
+      letter-spacing: 0.025em;
+    }
+
+    .summary-grid,
+    .design-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-bottom: 18px;
+    }
+
+    .summary-card {
+      padding: 18px;
+      background: var(--panel-soft);
+      border: 1px solid var(--line-soft);
+    }
+
+    .summary-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .summary-card h2 {
+      margin: 0 0 14px;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-heading {
+      margin: 0 0 16px;
+      color: rgba(244, 240, 234, 0.86);
+      font-family: var(--display);
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.025em;
+      text-transform: none;
+    }
+
+    .summary-card > p {
+      max-width: 850px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      letter-spacing: 0.035em;
+    }
+
+    .visual-card,
+    .evidence-card {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 11px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(244, 240, 234, 0.10);
+    }
+
+    .visual-card h3,
+    .evidence-card h3 {
+      margin: 0;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.095em;
+      text-transform: uppercase;
+    }
+
+    .visual-card p,
+    .evidence-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.42;
+      letter-spacing: 0.035em;
+    }
+
+    .media-frame {
+      position: relative;
+      width: 100%;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--line-soft);
+      box-shadow:
+        inset 0 0 0 14px var(--panel),
+        inset 0 0 0 15px var(--line-soft);
+    }
+
+    .media-frame img,
+    .media-frame video {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-card {
+      margin-bottom: 24px;
+    }
+
+    .hero-frame {
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+
+    .hero-frame video {
+      object-fit: contain;
+      object-position: center;
+      background: #000;
+    }
+
+    .system-list {
+      display: grid;
+      margin-top: 4px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .system-row {
+      display: grid;
+      grid-template-columns: 0.29fr 1fr;
+      gap: 18px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(244, 240, 234, 0.10);
+    }
+
+    .system-row strong,
+    .system-row span {
+      font-size: 11px;
+      line-height: 1.48;
+      letter-spacing: 0.04em;
+    }
+
+    .system-row strong {
+      color: var(--text);
+      font-weight: 500;
+      letter-spacing: 0.075em;
+      text-transform: uppercase;
+    }
+
+    .system-row span {
+      color: var(--muted);
+    }
+
+    .design-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 16px;
+    }
+
+    .design-grid .media-frame {
+      height: 340px;
+    }
+
+    .swap-card,
+    .swap-image {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .swap-card {
+      outline: none;
+    }
+
+    .swap-image img {
+      position: absolute;
+      inset: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .default-image {
+      opacity: 1;
+    }
+
+    .hover-image {
+      opacity: 0;
+    }
+
+    .swap-card:hover .default-image,
+    .swap-card:focus-visible .default-image {
+      opacity: 0;
+    }
+
+    .swap-card:hover .hover-image,
+    .swap-card:focus-visible .hover-image {
+      opacity: 1;
+    }
+
+    .cad-image {
+      object-fit: contain;
+      object-position: center;
+      padding: 18px;
+      background: #ffffff;
+      filter: saturate(0.78) contrast(1.02) brightness(0.99);
+    }
+
+    .cad-frame {
+      background: #ffffff;
+      box-shadow:
+        inset 0 0 0 14px #ffffff,
+        inset 0 0 0 15px var(--line-soft);
+    }
+
+    .cad-frame .swap-image {
+      background: #ffffff;
+    }
+
+    .hardware-grid .media-frame.cad-frame {
+      height: 360px;
+    }
+
+    .chamber-image {
+      object-fit: cover;
+      object-position: center;
+      background: #000;
+      filter: saturate(0.86) contrast(1.03) brightness(0.92);
+    }
+
+    .validation-card {
+      margin-top: 18px;
+    }
+
+    .validation-frame {
+      aspect-ratio: 5 / 3;
+      background: #050505;
+      box-shadow:
+        inset 0 0 0 8px #050505,
+        inset 0 0 0 9px var(--line-soft);
+    }
+
+    .validation-frame img {
+      object-fit: contain;
+      object-position: center;
+      padding: 6px;
+      background: #050505;
+    }
+
+    .cta-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      margin-top: 34px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .home-link {
+      grid-column: 2;
+      justify-self: center;
+      min-width: 220px;
+      padding: 10px 0;
+      color: var(--text);
+      text-align: center;
+      border-top: 1px solid var(--accent-line);
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 10px;
+      line-height: 1;
+      letter-spacing: 0.085em;
+      text-transform: uppercase;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .home-link:hover {
+      color: var(--accent-text);
+      border-top-color: var(--accent-text);
+      border-bottom-color: var(--accent-line);
+    }
+
+    @media (max-width: 760px) {
+      .background-context {
+        opacity: 0.08;
+        filter: blur(1px);
+      }
+
+      .overlay-wrap {
+        padding: 18px;
+      }
+
+      .summary-panel {
+        width: min(100%, 620px);
+        max-height: 92vh;
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: 36px;
+        line-height: 0.92;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .summary-card {
+        padding: 16px;
+      }
+
+      .system-row {
+        grid-template-columns: 0.4fr 1fr;
+        gap: 12px;
+      }
+
+      .design-grid {
+        gap: 12px;
+      }
+
+      .design-grid .media-frame {
+        height: 260px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .design-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .design-grid .media-frame {
+        height: 300px;
+      }
+
+      .validation-frame {
+        aspect-ratio: 4 / 3;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .panel-top {
+        grid-template-columns: 1fr;
+      }
+
+      .pdf-link {
+        justify-self: start;
+      }
+
+      .system-row {
+        grid-template-columns: 1fr;
+        gap: 3px;
+      }
+
+      .cta-row {
+        grid-template-columns: 1fr;
+      }
+
+      .home-link {
+        grid-column: 1;
+        justify-self: start;
+        min-width: 180px;
+      }
+    }
+  
+    /* Shared portfolio project footer */
+    .project-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+      margin-top: 38px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .all-projects-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      color: rgba(244, 240, 234, 0.48);
+      font-size: 9px;
+      line-height: 1;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      transition: color 160ms ease;
+    }
+
+    .all-projects-link:hover {
+      color: var(--text);
+    }
+
+    .next-project-link {
+      display: grid;
+      justify-items: end;
+      gap: 7px;
+      text-align: right;
+    }
+
+    .next-project-label {
+      color: rgba(244, 240, 234, 0.42);
+      font-size: 9px;
+      line-height: 1;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .next-project-title {
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 160ms ease;
+    }
+
+    .next-project-link:hover .next-project-title {
+      color: var(--accent-text);
+    }
+
+    @media (max-width: 520px) {
+      .project-footer {
+        grid-template-columns: 1fr auto;
+        gap: 14px;
+      }
+
+      .next-project-title {
+        font-size: 12px;
+      }
+    }
+
+
+    /* Upper-limb sensing visual hierarchy */
+    .hero-frame img,
+    .hero-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      background: #000;
+    }
+
+    .component-row,
+    .system-cad-row,
+    .hardware-grid,
+    .result-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 16px;
+      align-items: start;
+    }
+
+    .component-row {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .system-cad-row,
+    .hardware-grid,
+    .result-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .component-row .media-frame {
+      height: 145px;
+      background: #ffffff;
+    }
+
+    .system-cad-row .media-frame {
+      height: 180px;
+      background: #ffffff;
+    }
+
+    .hardware-grid .media-frame,
+    .result-grid .media-frame {
+      height: 300px;
+    }
+
+    .component-photo,
+    .cad-image {
+      object-fit: contain;
+      object-position: center;
+      padding: 14px;
+      background: #ffffff;
+      filter: saturate(0.92) contrast(1.01) brightness(0.99);
+    }
+
+    .wearing-photo {
+      object-fit: cover;
+      object-position: center;
+      background: #000;
+      filter: saturate(0.88) contrast(1.03) brightness(0.93);
+    }
+
+    .electronics-photo {
+      object-fit: contain;
+      object-position: center;
+      padding: 12px;
+      background: #ffffff;
+      filter: saturate(0.9) contrast(1.02) brightness(0.98);
+    }
+
+    .dashboard-image {
+      object-fit: contain;
+      object-position: center;
+      padding: 6px;
+      background: #050505;
+    }
+
+    .integrated-test-photo {
+      object-fit: cover;
+      object-position: center;
+      background: #050505;
+      filter: saturate(0.9) contrast(1.02) brightness(0.95);
+    }
+
+    .pdf-video-poster {
+      display: none !important;
+    }
+
+    .visual-card.header-only {
+      grid-template-rows: auto auto;
+    }
+
+    .hardware-separator-copy {
+      margin-top: 26px !important;
+      margin-bottom: 4px !important;
+    }
+
+    @media (max-width: 760px) {
+      .component-row,
+      .system-cad-row,
+      .hardware-grid,
+      .result-grid {
+        gap: 12px;
+      }
+
+      .component-row .media-frame {
+        height: 125px;
+      }
+
+      .system-cad-row .media-frame {
+        height: 160px;
+      }
+
+      .hardware-grid .media-frame,
+      .result-grid .media-frame {
+        height: 250px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .system-cad-row,
+      .hardware-grid,
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .component-row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .component-row .media-frame {
+        height: 105px;
+      }
+
+      .system-cad-row .media-frame {
+        height: 180px;
+      }
+
+      .hardware-grid .media-frame,
+      .result-grid .media-frame {
+        height: 300px;
+      }
+    }
+  
+
+
+    /* Media sizing: preserve each source image's natural orientation. */
+    .top-showcase {
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.7fr);
+      align-items: stretch;
+      max-width: 850px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .top-showcase .visual-card {
+      min-width: 0;
+    }
+
+    .top-showcase .media-frame {
+      height: 350px;
+      padding: 0;
+      background: #050505;
+      box-shadow: none;
+    }
+
+    .top-showcase .wearing-photo {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      object-fit: cover;
+      object-position: center;
+      background: #050505;
+    }
+
+    .top-showcase .dashboard-image {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      object-fit: contain;
+      object-position: center;
+      background: #050505;
+    }
+
+    /* CAD/component views may contain their own white canvas; do not add a second border of padding. */
+    .component-row .media-frame {
+      padding: 0;
+      background: #ffffff;
+      box-shadow: none;
+    }
+
+    .component-row .component-photo,
+    .component-row .cad-image {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      object-fit: contain;
+      object-position: center;
+      background: #ffffff;
+    }
+
+    /* Electronics is the primary hardware view; sleeve is a narrow supporting crop. */
+    .hardware-grid {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
+      align-items: stretch;
+    }
+
+    .hardware-grid .media-frame {
+      width: 100%;
+      height: 330px;
+      padding: 0;
+      background: #050505;
+      box-shadow: none;
+    }
+
+    .hardware-grid .electronics-photo {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      object-fit: cover;
+      object-position: center;
+      background: #050505;
+    }
+
+    .hardware-grid .sleeve-photo {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      object-fit: cover;
+      object-position: 50% 50%;
+      background: #050505;
+    }
+
+    /* Final test evidence: equal image/video split. */
+    .final-test-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+      align-items: start;
+    }
+
+    .final-test-grid .media-frame {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      height: auto;
+      padding: 0;
+      background: #050505;
+      box-shadow: none;
+    }
+
+    .final-test-grid img,
+    .final-test-grid video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      background: #050505;
+    }
+
+    /* Integrated test photo is 2048x1439; match that ratio instead of forcing 5:3. */
+    .validation-frame {
+      aspect-ratio: 2048 / 1439;
+      padding: 0;
+      box-shadow: none;
+    }
+
+    .validation-frame .integrated-test-photo {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      object-fit: cover;
+      object-position: center;
+      background: #050505;
+    }
+
+    /* The final demo is 1790x1080; matching it removes arbitrary black bars. */
+    .demo-video-card .hero-frame {
+      aspect-ratio: 1790 / 1080;
+      height: auto;
+      padding: 0;
+      box-shadow: none;
+    }
+
+    .demo-video-card .hero-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    @media (max-width: 760px) {
+      .top-showcase {
+        grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.7fr);
+      }
+
+      .top-showcase .media-frame {
+        height: 280px;
+      }
+
+      .hardware-grid {
+        max-width: 720px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .top-showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .top-showcase .media-frame {
+        height: auto;
+      }
+
+      .top-showcase .visual-card:first-child .media-frame {
+        aspect-ratio: 1479 / 2048;
+      }
+
+      .top-showcase .visual-card:last-child .media-frame {
+        aspect-ratio: 16 / 9;
+      }
+
+      .hardware-grid,
+      .final-test-grid {
+        grid-template-columns: 1fr;
+        max-width: 430px;
+      }
+
+      .hardware-grid .media-frame {
+        height: 300px;
+      }
+    }
+
+
+    /* Clean, aligned split layouts. */
+    .top-showcase {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 900px;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .top-showcase .visual-card,
+    .final-test-grid .visual-card,
+    .hardware-grid .visual-card {
+      min-width: 0;
+      align-self: stretch;
+    }
+
+    .top-showcase .media-frame {
+      height: 320px;
+    }
+
+    .top-showcase .wearing-photo {
+      object-fit: cover;
+      object-position: 50% 48%;
+    }
+
+    .top-showcase .dashboard-image {
+      object-fit: contain;
+      object-position: center;
+      background: #050505;
+    }
+
+    .hardware-grid {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      max-width: 860px;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .hardware-grid .media-frame {
+      height: 340px;
+    }
+
+    .hardware-grid .electronics-photo {
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .hardware-grid .sleeve-photo {
+      object-fit: cover;
+      object-position: 50% 50%;
+    }
+
+    .final-test-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .final-test-grid .visual-card {
+      grid-template-rows: 300px auto;
+      gap: 11px;
+    }
+
+    .final-test-grid .media-frame {
+      width: 100%;
+      height: 300px;
+      aspect-ratio: auto;
+      padding: 0;
+    }
+
+    .final-test-grid img,
+    .final-test-grid video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      margin: 0;
+    }
+
+    @media (max-width: 760px) {
+      .top-showcase .media-frame {
+        height: 280px;
+      }
+
+      .final-test-grid .visual-card {
+        grid-template-rows: 260px auto;
+      }
+
+      .final-test-grid .media-frame {
+        height: 260px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .top-showcase,
+      .hardware-grid,
+      .final-test-grid {
+        grid-template-columns: 1fr;
+        max-width: 430px;
+      }
+
+      .top-showcase .media-frame,
+      .hardware-grid .media-frame,
+      .final-test-grid .media-frame {
+        height: 300px;
+      }
+
+      .final-test-grid .visual-card {
+        grid-template-rows: 300px auto;
+      }
+    }
+
+    /* Final media layout: natural aspect ratios, no forced 50/50 cropping. */
+    .top-showcase {
+      grid-template-columns: minmax(0, 0.722fr) minmax(0, 1.778fr);
+      max-width: 900px;
+      gap: 18px;
+      align-items: start;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .top-showcase .visual-card {
+      min-width: 0;
+    }
+
+    .top-showcase .media-frame {
+      width: 100%;
+      height: auto;
+      padding: 0;
+      overflow: hidden;
+      background: #050505;
+      box-shadow: none;
+    }
+
+    .top-showcase .visual-card:first-child .media-frame {
+      aspect-ratio: 1479 / 2048;
+    }
+
+    .top-showcase .visual-card:last-child .media-frame {
+      aspect-ratio: 16 / 9;
+    }
+
+    .top-showcase .wearing-photo,
+    .top-showcase .dashboard-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      object-fit: contain;
+      object-position: center;
+      background: #050505;
+    }
+
+    .final-test-grid.video-only {
+      display: block;
+      width: 100%;
+      max-width: 900px;
+      margin: 18px auto 0;
+    }
+
+    .final-test-grid.video-only .visual-card {
+      display: grid;
+      grid-template-rows: auto auto;
+      gap: 11px;
+      width: 100%;
+    }
+
+    .final-test-grid.video-only .media-frame {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1790 / 1080;
+      padding: 0;
+      overflow: hidden;
+      background: #050505;
+      box-shadow: none;
+    }
+
+    .final-test-grid.video-only video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      object-fit: contain;
+      object-position: center;
+      background: #050505;
+    }
+
+    @media (max-width: 600px) {
+      .top-showcase {
+        grid-template-columns: 1fr;
+        max-width: 430px;
+      }
+
+      .top-showcase .visual-card:first-child .media-frame {
+        aspect-ratio: 1479 / 2048;
+      }
+
+      .top-showcase .visual-card:last-child .media-frame {
+        aspect-ratio: 16 / 9;
+      }
+
+      .final-test-grid.video-only {
+        max-width: 430px;
+      }
+    }
+
+    @media print {
+      @page {
+        size: Letter portrait;
+        margin: 0;
+      }
+
+      html,
+      body {
+        width: 100%;
+        min-height: 0;
+        overflow: visible !important;
+        background: #0b0707 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .background-context {
+        display: none !important;
+      }
+
+      .overlay-wrap {
+        display: block !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+      }
+
+      .summary-panel {
+        width: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 0.42in !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        background: #0b0707 !important;
+      }
+
+      .pdf-link,
+      .project-footer {
+        display: none !important;
+      }
+
+      .media-frame video {
+        display: none !important;
+      }
+
+      .media-frame .pdf-video-poster {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+      }
+
+      .hero-card,
+      .summary-card,
+      .visual-card,
+      .system-row,
+      .component-row,
+      .hardware-grid,
+      .result-grid {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .summary-grid {
+        display: block !important;
+      }
+
+      .summary-card {
+        margin-bottom: 18px;
+      }
+
+      .summary-intro {
+        margin-bottom: 18px;
+      }
+
+      .hero-frame {
+        max-height: 4.1in;
+      }
+
+      .component-row .media-frame {
+        height: 1.55in !important;
+      }
+
+      .hardware-grid .media-frame,
+      .result-grid .media-frame {
+        height: 2.45in !important;
+      }
+    }
+
+
+    .demo-video-card {
+      width: min(690px, 100%);
+      margin: 28px auto 0;
+    }
+
+
+    /* Electronics split crop fix: preserve full open-pod photo in the 2/3 column. */
+    .hardware-grid .media-frame {
+      height: 560px;
+    }
+
+    .hardware-grid .electronics-card .media-frame {
+      background: #c9c8c2;
+    }
+
+    .hardware-grid .electronics-photo {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      object-fit: contain !important;
+      object-position: center !important;
+      background: #c9c8c2;
+    }
+
+    .hardware-grid .sleeve-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover !important;
+      object-position: 50% 50% !important;
+    }
+
+    @media (max-width: 760px) {
+      .hardware-grid .media-frame {
+        height: 480px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hardware-grid .media-frame {
+        height: auto;
+      }
+
+      .hardware-grid .electronics-card .media-frame {
+        aspect-ratio: 3 / 4;
+      }
+
+      .hardware-grid .visual-card:not(.electronics-card) .media-frame {
+        aspect-ratio: 4 / 5;
+      }
+    }
+
+  
+    /* Final size reduction: keep these media sections compact on desktop and stacked/mobile views. */
+    .hardware-grid {
+      max-width: 700px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .hardware-grid .media-frame {
+      height: 390px !important;
+    }
+
+    .final-test-grid.video-only {
+      max-width: 560px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .demo-video-card {
+      width: 100% !important;
+      max-width: 560px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    @media (max-width: 760px) {
+      .hardware-grid {
+        max-width: 600px !important;
+      }
+
+      .hardware-grid .media-frame {
+        height: 340px !important;
+      }
+
+      .final-test-grid.video-only,
+      .demo-video-card {
+        max-width: 500px !important;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hardware-grid {
+        max-width: 320px !important;
+        grid-template-columns: 1fr !important;
+      }
+
+      .hardware-grid .media-frame,
+      .hardware-grid .electronics-card .media-frame,
+      .hardware-grid .visual-card:not(.electronics-card) .media-frame {
+        height: 290px !important;
+        aspect-ratio: auto !important;
+      }
+
+      .final-test-grid.video-only,
+      .demo-video-card {
+        max-width: 360px !important;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="background-context" aria-hidden="true">
+    <div class="ghost-header">
+      <p class="ghost-name">
+        Brooklyn<br>
+        Claeys
+      </p>
+    </div>
+
+    <div class="ghost-grid">
+      <div class="ghost-block"></div>
+      <div class="ghost-block"></div>
+      <div class="ghost-block"></div>
+    </div>
+  </div>
+
+  <main class="overlay-wrap">
+    <article
+      class="summary-panel"
+      aria-label="Wearable EMG and motion-sensing sleeve project summary"
+    >
+      <div class="panel-top">
+        <h1>Wearable EMG + Motion-Sensing Sleeve</h1>
+
+        <a
+          class="pdf-link"
+          href="../../pdfs/wearable_emg.pdf"
+          target="_blank"
+          rel="noopener"
+        >
+          PDF Version
+        </a>
+      </div>
+
+      <p class="project-type">
+        Personal Project
+      </p>
+
+      <p class="summary-intro">
+        I built a compression-sleeve prototype that records muscle activity and arm
+        motion together during exercise. Three EMG channels, two IMUs, and a direct
+        elbow-angle sensor feed a Bluetooth dashboard for comparing the signals during
+        curls, extensions, and lateral raises. My work covered the sensing layout,
+        wearable hardware, electrode mounting, calibration, and integrated testing.
+      </p>
+
+      <section class="hero-card">
+        <div class="result-grid top-showcase" aria-label="Integrated wearable system and live dashboard">
+          <article class="visual-card header-only">
+            <div class="media-frame">
+              <img
+                class="wearing-photo"
+                src="emg_photos/emg_wear.jpeg"
+                alt="Wearable EMG and motion-sensing sleeve worn during a biceps curl"
+              >
+            </div>
+            <h3>Worn System</h3>
+          </article>
+
+          <article class="visual-card header-only">
+            <div class="media-frame">
+              <img
+                class="dashboard-image"
+                src="../../photos-main/dashboard_em.png"
+                alt="Live exercise dashboard"
+              >
+            </div>
+            <h3>Live Dashboard</h3>
+          </article>
+        </div>
+      </section>
+
+      <section class="summary-grid">
+        <section class="summary-card full">
+          <h2 class="section-heading">Project Overview</h2>
+
+          <div class="system-list">
+            <div class="system-row">
+              <strong>Exercise Tests</strong>
+              <span>
+                I used biceps curls, triceps extensions, and lateral raises to compare
+                muscle activity with elbow motion, arm orientation, and repetition timing.
+              </span>
+            </div>
+
+            <div class="system-row">
+              <strong>EMG</strong>
+              <span>
+                Three BioAmp EXG Pill channels measuring biceps, triceps, and shoulder
+                activity through separate electrode pairs with a shared reference near
+                the elbow.
+              </span>
+            </div>
+
+            <div class="system-row">
+              <strong>Motion + Joint Angle</strong>
+              <span>
+                A shoulder-mounted LSM6DS3TR-C and the elbow module's onboard IMU
+                provide segment orientation, with a potentiometer on A3 measuring elbow
+                flexion directly. Entered upper-arm and forearm lengths are used to
+                estimate elbow and wrist position.
+              </span>
+            </div>
+
+            <div class="system-row">
+              <strong>Electrode Contact + Placement</strong>
+              <span>
+                I used removable EMG pods to control electrode spacing and placement, then
+                adjusted pod fit, contact pressure, and wire routing to keep the electrodes
+                stable as the arm moved.
+              </span>
+            </div>
+
+            <div class="system-row">
+              <strong>Wearable Hardware</strong>
+              <span>
+                Compression sleeve carrying the EMG pods, shoulder sensor, routed
+                wiring, and an elbow module containing the controller, power hardware,
+                and elbow-angle sensor.
+              </span>
+            </div>
+
+            <div class="system-row">
+              <strong>Processing + Output</strong>
+              <span>
+                XIAO nRF52840 Sense sampling and processing the sensor inputs, tracking
+                repetition phase, estimating arm position, and sending the results over
+                Bluetooth Low Energy to the live dashboard.
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section class="summary-card full">
+          <h2>Wearable Hardware</h2>
+
+          <p>
+            The main electronics pod houses the controller and power hardware near the elbow,
+            with flexible wiring running to the sensing pods positioned along the sleeve. The
+            complete pod assembly attaches with sew-on snap fasteners, so it can be removed as
+            one unit and repositioned between attachment points to suit different arm sizes and
+            sensor locations.
+          </p>
+
+          <div class="component-row" aria-label="MoveCue shoulder, elbow, and elbow-angle details">
+            <article class="visual-card header-only">
+              <div
+                class="swap-card"
+                tabindex="0"
+                aria-label="Hover to compare the shoulder pod and shoulder mounting location"
+              >
+                <div class="media-frame">
+                  <div class="swap-image">
+                    <img
+                      class="default-image component-photo"
+                      src="emg_photos/shoulderpod.png"
+                      alt="MoveCue shoulder sensor pod"
+                    >
+                    <img
+                      class="hover-image component-photo"
+                      src="emg_photos/shoulder.png"
+                      alt="MoveCue shoulder sensor mounted on the sleeve"
+                    >
+                  </div>
+                </div>
+              </div>
+              <h3>Shoulder Pod</h3>
+            </article>
+
+            <article class="visual-card header-only">
+              <div
+                class="swap-card"
+                tabindex="0"
+                aria-label="Hover to compare the biceps EMG pod CAD views"
+              >
+                <div class="media-frame">
+                  <div class="swap-image">
+                    <img
+                      class="default-image component-photo"
+                      src="emg_photos/bicep.png"
+                      alt="Biceps EMG pod exterior CAD view"
+                    >
+                    <img
+                      class="hover-image component-photo"
+                      src="emg_photos/bicepw.png"
+                      alt="Biceps EMG pod interior CAD view"
+                    >
+                  </div>
+                </div>
+              </div>
+              <h3>Biceps / Triceps Pod</h3>
+            </article>
+
+            <article class="visual-card header-only">
+              <div
+                class="swap-card"
+                tabindex="0"
+                aria-label="Hover to compare the potentiometer cap and elbow-angle potentiometer"
+              >
+                <div class="media-frame">
+                  <div class="swap-image">
+                    <img
+                      class="default-image component-photo"
+                      src="emg_photos/potentiometer.png"
+                      alt="MoveCue elbow-angle potentiometer and mechanical interface"
+                    >
+                    <img
+                      class="hover-image component-photo"
+                      src="emg_photos/potencap.png"
+                      alt="Protective cap for the MoveCue elbow-angle potentiometer"
+                    >
+                  </div>
+                </div>
+              </div>
+              <h3>Elbow-Angle Sensor Cap</h3>
+            </article>
+          </div>
+
+          <p class="hardware-separator-copy">
+            Early concepts used gold-plated PCB-style contact pieces, but the pod design moved
+            toward flexible TPU and rounded contact surfaces so the interface could follow the
+            sleeve and distribute pressure more evenly. The final geometry keeps each electrode
+            pair about 2 cm apart, with removable caps holding the contacts in place. A fixed
+            reference electrode near the elbow gives a consistent location with less movement,
+            while the wire routing keeps cable motion away from the electrode sites.
+          </p>
+
+          <div class="hardware-grid" aria-label="MoveCue electronics and sleeve integration details">
+            <article class="visual-card header-only electronics-card">
+              <div class="media-frame">
+                <img
+                  class="electronics-photo"
+                  src="emg_photos/opeN_pod.jpeg"
+                  alt="Electronics pod open for inspection and adjustment"
+                >
+              </div>
+              <h3>Electronics Packaging</h3>
+            </article>
+
+            <article class="visual-card header-only">
+              <div class="media-frame">
+                <img
+                  class="sleeve-photo"
+                  src="emg_photos/full_sleeve.jpeg"
+                  alt="Full wearable sensing sleeve assembly"
+                >
+              </div>
+              <h3>Sleeve Integration</h3>
+            </article>
+          </div>
+        </section>
+
+        <section class="summary-card full">
+          <h2>Testing</h2>
+
+          <p>
+            Testing started with each sensor independently before moving into full exercise
+            trials. This exposed channel-mapping and intermittent IMU issues and showed how
+            strongly EMG quality changed with electrode pressure and cable movement.
+          </p>
+
+          <p>
+            I corrected the channel mapping and IMU configuration so EMG, orientation, and
+            elbow angle could stream together during movement. The current version still shows
+            a slight delay between motion and the dashboard response, along with noticeable noise
+            in the EMG signals.
+          </p>
+
+          <div class="final-test-grid video-only" aria-label="Integrated exercise demonstration">
+            <article class="visual-card header-only demo-video-card">
+              <div class="media-frame">
+                <video
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  controls
+                  preload="metadata"
+                  poster="emg_photos/comp_arm.jpeg"
+                >
+                  <source src="emg_photos/emg_vid.mp4" type="video/mp4">
+                </video>
+                <img
+                  class="pdf-video-poster"
+                  src="emg_photos/comp_arm.jpeg"
+                  alt="Integrated exercise demonstration"
+                >
+              </div>
+              <h3>Integrated Exercise Test</h3>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <footer
+        class="project-footer"
+        aria-label="Project navigation"
+      >
+
+        <a class="all-projects-link" href="../../index.html">
+          <span aria-hidden="true">←</span>
+          <span>Back to all projects</span>
+        </a>
+
+        <a class="next-project-link" href="../control_chamber/chamber.html">
+          <span class="next-project-label">Next project</span>
+          <span class="next-project-title">Controlled-Environment Chamber</span>
+        </a>
+      </footer>
+
+
+    </article>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll("video").forEach(function (video) {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+        video.autoplay = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.setAttribute("muted", "");
+        video.setAttribute("autoplay", "");
+        video.setAttribute("loop", "");
+        video.setAttribute("playsinline", "");
+
+        video.addEventListener("volumechange", function () {
+          if (!video.muted || video.volume !== 0) {
+            video.muted = true;
+            video.volume = 0;
+          }
+        });
+
+        if (video.autoplay) {
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(function () {
+              video.controls = true;
+            });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

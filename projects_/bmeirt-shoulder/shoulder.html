@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Adaptive Yankauer | Brooklyn Claeys</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --bg: #0b0707;
+      --panel: #100c0c;
+      --panel-soft: rgba(244, 240, 234, 0.026);
+      --text: #f4f0ea;
+      --muted: #aaa39a;
+      --line: rgba(244, 240, 234, 0.30);
+      --line-soft: rgba(244, 240, 234, 0.13);
+      --accent-line: #123a5a;
+      --accent-text: #6fa0c8;
+      --paper: #f4f2ed;
+      --display: "Cormorant Garamond", Georgia, serif;
+      --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      letter-spacing: 0.02em;
+      scrollbar-color:
+        rgba(244, 240, 234, 0.28)
+        rgba(11, 7, 7, 0.78);
+      scrollbar-width: thin;
+    }
+
+    *::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: rgba(11, 7, 7, 0.78);
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: rgba(244, 240, 234, 0.24);
+      border: 2px solid rgba(11, 7, 7, 0.78);
+      border-radius: 999px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .background-context {
+      position: fixed;
+      inset: 0;
+      padding: 42px clamp(22px, 4.6vw, 72px);
+      opacity: 0.10;
+      filter: blur(1.5px);
+      pointer-events: none;
+    }
+
+    .ghost-header {
+      height: 250px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .ghost-name {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(80px, 12vw, 150px);
+      line-height: 0.76;
+      text-transform: uppercase;
+    }
+
+    .ghost-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(18px, 2vw, 30px);
+      margin-top: 48px;
+    }
+
+    .ghost-block {
+      height: 340px;
+      background: var(--panel);
+      border: 1px solid var(--line-soft);
+    }
+
+    .overlay-wrap {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 42px 22px;
+    }
+
+    .summary-panel {
+      width: min(960px, 90vw);
+      max-height: 88vh;
+      overflow: auto;
+      padding: clamp(26px, 3.8vw, 48px);
+      background: rgba(11, 7, 7, 0.965);
+      border: 1px solid var(--line-soft);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    .panel-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .pdf-link {
+      justify-self: end;
+      width: fit-content;
+      padding-bottom: 4px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      font-size: 11px;
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .pdf-link:hover {
+      color: var(--accent-text);
+      border-color: var(--accent-line);
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(34px, 4.8vw, 56px);
+      line-height: 0.90;
+      font-weight: 400;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+    }
+
+    .project-type {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .summary-intro {
+      max-width: 850px;
+      margin: 0 0 28px;
+      color: rgba(244, 240, 234, 0.76);
+      font-size: 13px;
+      line-height: 1.58;
+      letter-spacing: 0.025em;
+    }
+
+    .summary-intro.intro-context {
+      margin-bottom: 12px;
+    }
+
+    .summary-grid,
+    .visual-grid,
+    .comparison-grid,
+    .decision-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+
+    .summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-bottom: 18px;
+    }
+
+    .summary-card {
+      padding: 18px;
+      background: var(--panel-soft);
+      border: 1px solid var(--line-soft);
+    }
+
+    .summary-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .summary-card h2 {
+      margin: 0 0 14px;
+      color: rgba(244, 240, 234, 0.86);
+      font-family: var(--sans);
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .summary-card > p {
+      max-width: 850px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      letter-spacing: 0.035em;
+    }
+
+    .summary-card > p + p {
+      margin-top: 12px;
+    }
+
+    .visual-grid,
+    .comparison-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 18px;
+      align-items: start;
+    }
+
+    .visual-card {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 11px;
+      min-width: 0;
+      padding-top: 12px;
+      border-top: 1px solid rgba(244, 240, 234, 0.10);
+    }
+
+    .visual-card h3 {
+      margin: 0;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.095em;
+      text-transform: uppercase;
+    }
+
+    .visual-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.42;
+      letter-spacing: 0.035em;
+    }
+
+    .visual-card.cad-only {
+      grid-template-rows: auto;
+      gap: 0;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .media-frame {
+      position: relative;
+      width: 100%;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: #eceae6;
+      border: 1px solid var(--line-soft);
+      box-shadow: none;
+    }
+
+    .media-frame img,
+    .media-frame video {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .comparison-grid .media-frame {
+      aspect-ratio: 16 / 9;
+      min-height: 0;
+      background: #050505;
+      box-shadow: none;
+    }
+
+    .comparison-grid video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      background: #050505;
+      transform: none;
+    }
+
+    .decision-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 18px;
+      margin-bottom: 20px;
+    }
+
+    .decision-block {
+      padding-top: 13px;
+      border-top: 1px solid rgba(244, 240, 234, 0.14);
+    }
+
+    .decision-block h3 {
+      margin: 0 0 9px;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.095em;
+      text-transform: uppercase;
+    }
+
+    .decision-block p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.48;
+      letter-spacing: 0.035em;
+    }
+
+    .visual-grid .media-frame {
+      height: auto;
+    }
+
+    .media-frame img,
+    .media-frame video {
+      box-sizing: border-box;
+      width: 100%;
+      height: auto;
+      max-height: none;
+      object-fit: initial;
+      object-position: center;
+    }
+
+    .cad-image,
+    .system-image,
+    .exploded-cad-image {
+      width: 100%;
+      height: auto;
+      object-position: center;
+    }
+
+    .cad-image {
+      padding: 0;
+      filter: saturate(0.82) contrast(1.02) brightness(0.99);
+    }
+
+    .cad-evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 0;
+      margin-bottom: 18px;
+      align-items: start;
+    }
+
+    .cad-hover-pair {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      background: #eceae6;
+      outline: none;
+    }
+
+    .cad-hover-pair img {
+      display: block;
+      width: 100%;
+      object-position: center;
+      transition: opacity 180ms ease;
+    }
+
+    .cad-hover-pair .cad-default-image {
+      position: relative;
+      z-index: 1;
+      height: auto;
+    }
+
+    .cad-hover-pair .cad-hover-image {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+    }
+
+    /* Keep the SolidWorks renders the same displayed height as the drawing card. */
+    .cad-render-pair {
+      height: var(--cad-drawing-height, auto);
+    }
+
+    .cad-render-pair .cad-default-image,
+    .cad-render-pair .cad-hover-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .cad-drawing-pair .cad-default-image {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .cad-drawing-pair .cad-hover-image {
+      object-fit: contain;
+    }
+
+    .cad-hover-pair:hover .cad-default-image,
+    .cad-hover-pair:focus .cad-default-image {
+      opacity: 0;
+    }
+
+    .cad-hover-pair:hover .cad-hover-image,
+    .cad-hover-pair:focus .cad-hover-image {
+      opacity: 1;
+    }
+
+    .system-view {
+      position: relative;
+      height: auto;
+      margin-top: 18px;
+      overflow: hidden;
+      outline: none;
+    }
+
+    .system-view .system-image {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: auto;
+      padding: 0;
+      object-position: center;
+      transition: opacity 180ms ease;
+    }
+
+    .system-view .system-exploded-image {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .system-view:hover .system-image,
+    .system-view:focus .system-image {
+      opacity: 0;
+    }
+
+    .system-view:hover .system-exploded-image,
+    .system-view:focus .system-exploded-image {
+      opacity: 1;
+    }
+
+    .project-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+      margin-top: 38px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .all-projects-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      color: rgba(244, 240, 234, 0.48);
+      font-size: 9px;
+      line-height: 1;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      transition: color 160ms ease;
+    }
+
+    .all-projects-link:hover {
+      color: var(--text);
+    }
+
+    .next-project-link {
+      display: grid;
+      justify-items: end;
+      gap: 7px;
+      text-align: right;
+    }
+
+    .next-project-label {
+      color: rgba(244, 240, 234, 0.42);
+      font-size: 9px;
+      line-height: 1;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .next-project-title {
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 160ms ease;
+    }
+
+    .next-project-link:hover .next-project-title {
+      color: var(--accent-text);
+    }
+
+    @media (max-width: 760px) {
+      .background-context {
+        opacity: 0.08;
+        filter: blur(1px);
+      }
+
+      .overlay-wrap {
+        padding: 18px;
+      }
+
+      .summary-panel {
+        width: min(100%, 620px);
+        max-height: 92vh;
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: 36px;
+        line-height: 0.92;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .summary-card {
+        padding: 16px;
+      }
+
+      .decision-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .cad-evidence-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .visual-grid,
+      .comparison-grid {
+        gap: 12px;
+      }
+
+      .visual-grid .media-frame {
+        height: auto;
+      }
+
+      .system-view {
+        height: auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .visual-grid,
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-grid .media-frame {
+        height: auto;
+      }
+
+      .comparison-grid .media-frame {
+        aspect-ratio: 16 / 9;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .panel-top {
+        grid-template-columns: 1fr;
+      }
+
+      .pdf-link {
+        justify-self: start;
+      }
+
+      .project-footer {
+        grid-template-columns: 1fr auto;
+        gap: 14px;
+      }
+
+      .next-project-title {
+        font-size: 12px;
+      }
+
+      .system-view {
+        height: auto;
+      }
+    }
+  
+
+/* Unified project header */
+    .panel-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 22px;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+
+    .project-header-copy {
+      min-width: 0;
+    }
+
+    .project-header-copy .project-type {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 10px;
+      line-height: 1.25;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .project-header-copy .project-type + .project-type {
+      margin-top: 5px;
+    }
+
+    .pdf-link {
+      justify-self: end;
+      align-self: start;
+      display: inline-block;
+      width: fit-content;
+      margin: 2px 0 0;
+      padding-bottom: 4px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      font-family: var(--sans);
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .pdf-link:hover {
+      color: var(--accent-text);
+      border-color: var(--accent-line);
+    }
+
+    @media (max-width: 520px) {
+      .panel-top {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 14px;
+      }
+
+      .pdf-link {
+        justify-self: end;
+      }
+    }
+</style>
+</head>
+
+<body>
+  <div class="background-context" aria-hidden="true">
+    <div class="ghost-header">
+      <p class="ghost-name">
+        Brooklyn<br>
+        Claeys
+      </p>
+    </div>
+
+    <div class="ghost-grid">
+      <div class="ghost-block"></div>
+      <div class="ghost-block"></div>
+      <div class="ghost-block"></div>
+    </div>
+  </div>
+
+  <main class="overlay-wrap">
+    <article
+      class="summary-panel"
+      aria-label="Adaptive Yankauer shoulder joint project summary"
+    >
+      <div class="panel-top">
+        <div class="project-header-copy">
+          <h1>
+            Adaptive Yankauer
+          </h1>
+          <p class="project-type">
+            Biomedical Engineering Research and Innovation Team (BMERIT) · Shoulder Joint Redesign
+          </p>
+        </div>
+
+        <a class="pdf-link" href="../../pdfs/Adaptive_Yankauer.pdf" target="_blank" rel="noopener">PDF Version</a>
+      </div>
+
+      <p class="summary-intro intro-context">
+        The Adaptive Yankauer is a Biomedical Engineering Research and Innovation
+        Team (BMERIT) concept for a bed-mounted assistive arm that positions a
+        Yankauer suction tip for users who may be unable to operate a conventional
+        suction system independently. The system combines horizontal and vertical
+        hinge motion, linear extension, a rotating base, bed-rail mounting, and a
+        proposed eye-tracking interface to reposition the suction tip around the user.
+      </p>
+
+      <p class="summary-intro">
+        My work on the shoulder joint focused on enclosing the exposed gears and
+        motor shaft, increasing available torque through a revised motor and
+        reduction, improving support through the transmission, and packaging the
+        mechanism into a compact joint that could integrate with the arm.
+      </p>
+
+      <section class="summary-grid">
+
+        <section class="summary-card full">
+          <h2>CAD Design</h2>
+
+          <div class="cad-evidence-grid" aria-label="Shoulder-joint CAD views and engineering drawings">
+            <div
+              class="media-frame cad-hover-pair cad-render-pair"
+              tabindex="0"
+              aria-label="Full shoulder-joint assembly; hover to reveal the front CAD view"
+            >
+              <img
+                class="cad-image cad-default-image"
+                src="../../photos-main/shoulder_joint.png"
+                alt="Full CAD assembly of the revised Yankeaur shoulder joint"
+              >
+              <img
+                class="cad-image cad-hover-image"
+                src="../../photos-main/gear_front.png"
+                alt="Front CAD view of the revised shoulder-joint planetary gearbox"
+              >
+            </div>
+
+            <div
+              class="media-frame cad-hover-pair cad-drawing-pair"
+              tabindex="0"
+              aria-label="Motor casing engineering drawing; hover to reveal the shoulder assembly drawing"
+            >
+              <img
+                class="cad-default-image"
+                src="phots/motor_casing.png"
+                alt="Motor casing engineering drawing for the revised shoulder joint"
+              >
+              <img
+                class="cad-hover-image"
+                src="phots/shoulder_Assem_Draw.png"
+                alt="Shoulder joint assembly engineering drawing"
+              >
+            </div>
+          </div>
+
+          <p>
+            SolidWorks views and engineering drawings of the revised shoulder joint
+            show the assembled geometry, internal gear layout, motor casing, and
+            assembly definition used to check spacing, support, motor alignment,
+            fastener access, and the arm-side output connection. The revised assembly
+            encloses the gears, supports the planets and carrier, and integrates the
+            transmission directly into the joint.
+          </p>
+
+          <div class="decision-grid" aria-label="Shoulder-joint design facts">
+            <article class="decision-block">
+              <h3>Planetary Stage</h3>
+              <p>
+                Single-stage planetary reduction with a sun-gear input, three
+                planet gears, a fixed internal ring, and carrier output. Tooth
+                count and packaging were developed around an approximately 16:1
+                target within the available joint envelope.
+              </p>
+            </article>
+
+            <article class="decision-block">
+              <h3>Motor</h3>
+              <p>
+                A NEMA 17 stepper motor provides the central input. The revised
+                CAD integrates the motor mount, shaft alignment, sun-gear fit,
+                and transmission clearance directly into the joint assembly.
+              </p>
+            </article>
+
+          </div>
+
+        </section>
+
+        <section class="summary-card full">
+          <h2>Shoulder Joint</h2>
+
+          <p>
+            The shoulder joint provides the vertical positioning motion for the
+            Yankauer arm. The earlier team prototype left the gears and motor shaft
+            exposed, used a different motor arrangement, and did not include a
+            defined attachment to the surrounding arm structure. My redesign
+            enclosed the drive, changed the motor and reduction to increase
+            available torque, improved internal support, and packaged the mechanism
+            as a compact joint.
+          </p>
+
+          <div class="comparison-grid" aria-label="Shoulder-joint prototype comparison">
+            <article class="visual-card">
+              <div class="media-frame solidworks-frame">
+                <video class="solidworks-video" autoplay muted loop playsinline controls preload="auto">
+                  <source src="phots/solidworks_vid.mp4" type="video/mp4">
+                  Your browser does not support embedded MP4 video.
+                </video>
+              </div>
+
+              <h3>Joint Motion and Internal Assembly</h3>
+
+              <p>
+                SolidWorks motion study showing the revised joint through its
+                rotation, internal mechanism, and rotating assembly view.
+              </p>
+            </article>
+
+            <article class="visual-card">
+              <div class="media-frame">
+                <video autoplay muted loop playsinline controls preload="auto">
+                  <source src="phots/testv1.mp4" type="video/mp4">
+                  Your browser does not support embedded MP4 video.
+                </video>
+              </div>
+
+              <h3>Earlier Team Prototype</h3>
+
+              <p>
+                Earlier team prototype used as the baseline for the redesign, with
+                exposed gears and shafting, a different motor arrangement, and no
+                defined arm-side attachment.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="summary-card full">
+          <h2>Current Development</h2>
+
+          <p>
+            The redesign is now moving from CAD into fabrication, testing, and
+            integration with the broader system. Current work includes CNC machining
+            selected components, testing the assembled joint with the motor, adding
+            the interfaces required to attach the joint to the rest of the Yankauer
+            arm, and building a rear electrical housing for wiring and electronics.
+          </p>
+
+        </section>
+
+        <section class="summary-card full">
+          <h2>Full System</h2>
+
+          <p>
+            The full team concept distributes positioning across a horizontal
+            hinge, a vertical hinge, one linear translation axis, and a manually
+            rotating base. Together, these motion axes provide two hinge directions,
+            adjustable reach, and base-angle positioning so the Yankauer tip can
+            be moved relative to the user.
+          </p>
+
+          <p>
+            A bed clamp anchors the device to the rail, the linked arm sections
+            carry motion from the base toward the user, and a C-clamp guide at
+            the end follows the top of the arm and holds the Yankauer attachment.
+            The proposed eye-tracking components provide the user-input concept,
+            while the mechanical joints and actuator reposition the tip. The
+            revised shoulder joint provides the vertical positioning stage within
+            this broader motion architecture.
+          </p>
+
+          <div
+            class="media-frame system-view"
+            tabindex="0"
+            aria-label="Full Adaptive Yankauer team concept; hover to view the exploded shoulder-joint CAD"
+          >
+            <img
+              class="system-image"
+              src="../../photos-main/fullyankeour.png"
+              alt="Full Adaptive Yankauer assistive arm design"
+            >
+            <img
+              class="system-exploded-image"
+              src="phots/explodedcad.png"
+              alt="Exploded CAD view of the revised shoulder-joint assembly"
+            >
+          </div>
+        </section>
+      </section>
+
+      <footer class="project-footer" aria-label="Project navigation">
+        <a class="all-projects-link" href="../../index.html">
+          <span aria-hidden="true">←</span>
+          <span>Back to all projects</span>
+        </a>
+
+        <a class="next-project-link" href="../emg/emgband.html">
+          <span class="next-project-label">Next project</span>
+          <span class="next-project-title">Wearable EMG + IMU Exercise Analysis</span>
+        </a>
+      </footer>
+    </article>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const drawingFrame = document.querySelector(".cad-drawing-pair");
+      const renderFrame = document.querySelector(".cad-render-pair");
+
+      const syncCadRenderHeight = function () {
+        if (!drawingFrame || !renderFrame) return;
+        const drawingHeight = drawingFrame.getBoundingClientRect().height;
+        if (drawingHeight > 0) {
+          renderFrame.style.setProperty("--cad-drawing-height", drawingHeight + "px");
+        }
+      };
+
+      if (drawingFrame) {
+        const drawingImage = drawingFrame.querySelector(".cad-default-image");
+        if (drawingImage && !drawingImage.complete) {
+          drawingImage.addEventListener("load", syncCadRenderHeight, { once: true });
+        } else {
+          syncCadRenderHeight();
+        }
+
+        if (window.ResizeObserver) {
+          const cadResizeObserver = new ResizeObserver(syncCadRenderHeight);
+          cadResizeObserver.observe(drawingFrame);
+        } else {
+          window.addEventListener("resize", syncCadRenderHeight);
+        }
+      }
+
+      document.querySelectorAll("video[autoplay]").forEach(function (video) {
+        video.muted = true;
+        video.playsInline = true;
+
+        const tryPlay = function () {
+          const playPromise = video.play();
+
+          if (playPromise !== undefined) {
+            playPromise.catch(function () {
+              video.controls = true;
+            });
+          }
+        };
+
+        if (video.readyState >= 2) {
+          tryPlay();
+        } else {
+          video.addEventListener("loadeddata", tryPlay, { once: true });
+        }
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll("video").forEach(function (video) {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+
+        video.addEventListener("volumechange", function () {
+          if (!video.muted || video.volume !== 0) {
+            video.muted = true;
+            video.volume = 0;
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

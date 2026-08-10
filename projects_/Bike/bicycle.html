@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Modelling and Analysis of 3D Bicycle Dynamics | Brooklyn Claeys</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --bg: #0b0707;
+      --panel: #100c0c;
+      --panel-soft: rgba(244, 240, 234, 0.026);
+      --text: #f4f0ea;
+      --muted: #aaa39a;
+      --line: rgba(244, 240, 234, 0.30);
+      --line-soft: rgba(244, 240, 234, 0.13);
+      --accent-line: #123a5a;
+      --accent-text: #6fa0c8;
+      --paper: #f4f2ed;
+      --display: "Cormorant Garamond", Georgia, serif;
+      --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      letter-spacing: 0.02em;
+      scrollbar-color:
+        rgba(244, 240, 234, 0.28)
+        rgba(11, 7, 7, 0.78);
+      scrollbar-width: thin;
+    }
+
+    *::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: rgba(11, 7, 7, 0.78);
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: rgba(244, 240, 234, 0.24);
+      border: 2px solid rgba(11, 7, 7, 0.78);
+      border-radius: 999px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .background-context {
+      position: fixed;
+      inset: 0;
+      padding: 42px clamp(22px, 4.6vw, 72px);
+      opacity: 0.10;
+      filter: blur(1.5px);
+      pointer-events: none;
+    }
+
+    .ghost-header {
+      height: 250px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .ghost-name {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(80px, 12vw, 150px);
+      line-height: 0.76;
+      text-transform: uppercase;
+    }
+
+    .ghost-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(18px, 2vw, 30px);
+      margin-top: 48px;
+    }
+
+    .ghost-block {
+      height: 340px;
+      background: var(--panel);
+      border: 1px solid var(--line-soft);
+    }
+
+    .overlay-wrap {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 42px 22px;
+    }
+
+    .summary-panel {
+      width: min(960px, 90vw);
+      max-height: 88vh;
+      overflow: auto;
+      padding: clamp(26px, 3.8vw, 48px);
+      background: rgba(11, 7, 7, 0.965);
+      border: 1px solid var(--line-soft);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    .panel-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .pdf-link {
+      display: inline-block;
+      width: fit-content;
+      margin-top: 2px;
+      padding-bottom: 4px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      font-size: 11px;
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .pdf-link:hover {
+      color: var(--accent-text);
+      border-color: var(--accent-line);
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(34px, 4.8vw, 56px);
+      line-height: 0.90;
+      font-weight: 400;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+    }
+
+    .project-type {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .summary-intro {
+      max-width: 860px;
+      margin: 0 0 28px;
+      color: rgba(244, 240, 234, 0.76);
+      font-size: 13px;
+      line-height: 1.58;
+      letter-spacing: 0.025em;
+    }
+
+    .summary-grid,
+    .visual-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-bottom: 18px;
+    }
+
+    .visual-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-bottom: 24px;
+    }
+
+    .visual-grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 16px;
+      margin-bottom: 0;
+    }
+
+    .summary-card {
+      padding: 18px;
+      background: var(--panel-soft);
+      border: 1px solid var(--line-soft);
+    }
+
+    .summary-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .summary-card h2 {
+      margin: 0 0 14px;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-heading {
+      margin: 0 0 16px;
+      color: rgba(244, 240, 234, 0.86);
+      font-family: var(--sans);
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.025em;
+      text-transform: none;
+    }
+
+    .summary-card > p {
+      max-width: 850px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      letter-spacing: 0.035em;
+    }
+
+    .summary-card > p + p {
+      margin-top: 12px;
+    }
+
+    .visual-card {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 11px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(244, 240, 234, 0.10);
+    }
+
+    .visual-card h3 {
+      margin: 0;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.095em;
+      text-transform: uppercase;
+    }
+
+    .visual-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.42;
+      letter-spacing: 0.035em;
+    }
+
+    .media-frame {
+      position: relative;
+      width: 100%;
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid var(--line-soft);
+      box-shadow: none;
+    }
+
+    .media-frame.wide {
+      min-height: 330px;
+    }
+
+    .media-frame img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      object-fit: contain;
+    }
+
+    .visual-grid.two .media-frame.wide {
+      min-height: 0;
+      aspect-ratio: 4 / 3;
+    }
+
+    .visual-grid.two .media-frame img {
+      object-fit: cover;
+    }
+
+    .hover-stack img {
+      transition: opacity 220ms ease;
+    }
+
+    .hover-stack img:last-of-type {
+      opacity: 0;
+    }
+
+    .hover-stack:hover img:first-of-type,
+    .hover-stack:focus-within img:first-of-type {
+      opacity: 0;
+    }
+
+    .hover-stack:hover img:last-of-type,
+    .hover-stack:focus-within img:last-of-type {
+      opacity: 1;
+    }
+
+    .kinematic-media img {
+      transform: scale(1.1);
+      transform-origin: center;
+    }
+
+    .placeholder-label {
+      max-width: 220px;
+      padding: 14px;
+      color: rgba(244, 240, 234, 0.42);
+      font-size: 9px;
+      line-height: 1.45;
+      letter-spacing: 0.10em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .system-list {
+      display: grid;
+      margin-top: 4px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .system-row {
+      display: grid;
+      grid-template-columns: 0.29fr 1fr;
+      gap: 18px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(244, 240, 234, 0.10);
+    }
+
+    .system-row strong,
+    .system-row span {
+      font-size: 11px;
+      line-height: 1.48;
+      letter-spacing: 0.04em;
+    }
+
+    .system-row strong {
+      color: var(--text);
+      font-weight: 500;
+      letter-spacing: 0.075em;
+      text-transform: uppercase;
+    }
+
+    .system-row span {
+      color: var(--muted);
+    }
+
+    .project-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+      margin-top: 38px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .all-projects-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      color: rgba(244, 240, 234, 0.48);
+      font-size: 9px;
+      line-height: 1;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      transition: color 160ms ease;
+    }
+
+    .all-projects-link:hover {
+      color: var(--text);
+    }
+
+    .next-project-link {
+      display: grid;
+      justify-items: end;
+      gap: 7px;
+      text-align: right;
+    }
+
+    .next-project-label {
+      color: rgba(244, 240, 234, 0.42);
+      font-size: 9px;
+      line-height: 1;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .next-project-title {
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 160ms ease;
+    }
+
+    .next-project-link:hover .next-project-title {
+      color: var(--accent-text);
+    }
+
+    @media (max-width: 760px) {
+      .background-context {
+        opacity: 0.08;
+        filter: blur(1px);
+      }
+
+      .overlay-wrap {
+        padding: 18px;
+      }
+
+      .summary-panel {
+        width: min(100%, 620px);
+        max-height: 92vh;
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: 36px;
+        line-height: 0.92;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .visual-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .visual-grid.two {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-card {
+        padding: 16px;
+      }
+
+      .system-row {
+        grid-template-columns: 0.4fr 1fr;
+        gap: 12px;
+      }
+
+      .media-frame,
+      .media-frame.wide {
+        min-height: 250px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .panel-top {
+        grid-template-columns: 1fr;
+      }
+
+      .project-meta {
+        max-width: none;
+        padding-top: 0;
+        text-align: left;
+      }
+
+      .system-row {
+        grid-template-columns: 1fr;
+        gap: 3px;
+      }
+
+      .project-footer {
+        grid-template-columns: 1fr auto;
+        gap: 14px;
+      }
+
+      .next-project-title {
+        font-size: 12px;
+      }
+    }
+  
+
+/* Unified project header */
+    .panel-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 22px;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+
+    .project-header-copy {
+      min-width: 0;
+    }
+
+    .project-header-copy .project-type {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 10px;
+      line-height: 1.25;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .project-header-copy .project-type + .project-type {
+      margin-top: 5px;
+    }
+
+    .pdf-link {
+      justify-self: end;
+      align-self: start;
+      display: inline-block;
+      width: fit-content;
+      margin: 2px 0 0;
+      padding-bottom: 4px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      font-family: var(--sans);
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .pdf-link:hover {
+      color: var(--accent-text);
+      border-color: var(--accent-line);
+    }
+
+    @media (max-width: 520px) {
+      .panel-top {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 14px;
+      }
+
+      .pdf-link {
+        justify-self: end;
+      }
+    }
+</style>
+</head>
+
+<body>
+  <div class="background-context" aria-hidden="true">
+    <div class="ghost-header">
+      <p class="ghost-name">
+        Brooklyn<br>
+        Claeys
+      </p>
+    </div>
+
+    <div class="ghost-grid">
+      <div class="ghost-block"></div>
+      <div class="ghost-block"></div>
+      <div class="ghost-block"></div>
+    </div>
+  </div>
+
+  <main class="overlay-wrap">
+    <article
+      class="summary-panel"
+      aria-label="Modelling and Analysis of 3D Bicycle Dynamics project summary"
+    >
+      <div class="panel-top">
+        <div class="project-header-copy">
+          <h1>
+            3D Bicycle<br>
+            Dynamics
+          </h1>
+          <p class="project-type">PURE Undergraduate Research</p>
+          <p class="project-type">University of Calgary</p>
+        </div>
+
+        <a class="pdf-link" href="../../pdfs/Bicycle_Dynamics.pdf" target="_blank" rel="noopener">PDF Version</a>
+      </div>
+
+      <p class="summary-intro">
+        My research involved developing and verifying a four-body model of
+        bicycle motion alongside Dr. Roes Budiman's analytical work. Working
+        with MSc student Haoyuan Jin, I collected and processed experimental
+        ride data and used the existing SolidWorks model to obtain the geometry
+        and mass properties required for the analysis. I then implemented the
+        current simplifying assumptions and 18-equation system in MATLAB as an
+        inverse-dynamics model to evaluate the consistency of the equations,
+        measured motion, and physical parameters.
+      </p>
+
+      <section class="summary-grid">
+
+        <section class="summary-card full">
+          <h2 class="section-heading">Four Body Model</h2>
+
+          <div class="visual-grid two">
+            <article class="visual-card">
+              <div class="media-frame wide">
+                <img
+                  src="../../photos-main/bike_sensors.JPG"
+                  alt="Instrumented bicycle used for experimental data collection"
+                >
+              </div>
+
+              <h3>Instrumented Bicycle</h3>
+
+              <p>
+                Experimental bicycle setup used to collect the motion histories
+                supplied to the inverse-dynamics model.
+              </p>
+            </article>
+
+            <article class="visual-card">
+              <div class="media-frame wide hover-stack" tabindex="0">
+                <img
+                  src="photos/bike_cad.png"
+                  alt="SolidWorks bicycle assembly used for physical parameterization"
+                >
+                <img
+                  src="../../photos-main/labeled_bike_CAD.JPG"
+                  alt="Labelled four-body bicycle CAD model"
+                >
+              </div>
+
+              <h3>Four Coordinate Systems</h3>
+
+              <p>
+                Front wheel, fork, frame and rider, and rear wheel labelled on
+                the SolidWorks model with the body-fixed coordinate systems used
+                throughout the derivation.
+              </p>
+            </article>
+          </div>
+
+
+          <div class="system-list">
+            <div class="system-row">
+              <strong>Experimental Inputs</strong>
+
+              <span>
+                Three-axis orientation and linear acceleration recorded at the
+                front and rear of the bicycle, together with rotational-speed
+                histories for both wheels.
+              </span>
+            </div>
+
+            <div class="system-row">
+              <strong>CAD Inputs</strong>
+
+              <span>
+                Bicycle geometry, rigid-body masses, centre-of-mass locations,
+                and principal inertias obtained from the existing SolidWorks
+                model, scaled to consistent units, and mapped into the analytical
+                body-coordinate definitions.
+              </span>
+            </div>
+
+            <div class="system-row">
+              <strong>Model Bodies</strong>
+
+              <span>
+                Front wheel, fork, frame and rider, and rear wheel represented
+                as four connected rigid bodies, each with its own body-fixed
+                coordinate system used throughout the derivation.
+              </span>
+            </div>
+
+            <div class="system-row">
+              <strong>Initial Assumptions</strong>
+
+              <span>
+                Frame yaw set to zero; frame pitch fixed at 90°; fork pitch set
+                to 0°; fork yaw set to zero; rear-wheel yaw set equal to frame
+                yaw; equal wheel radii; massless fork; no A-A torque on the fork;
+                upright frame-roll assumption; equal front and rear wheel spin
+                rates; drag neglected in V1 because propulsion and drag could not
+                be solved simultaneously; drivetrain gear inertia neglected.
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section class="summary-card full">
+          <h2 class="section-heading">Multibody Kinematics</h2>
+
+          <p>
+            With Dr. Budiman, I assigned the body-coordinate definitions and
+            simplified the model through the current kinematic assumptions. Dr.
+            Budiman developed the shared-body relationships using geometric
+            projections, while I independently derived the same relationships
+            using coordinate transformations between the moving body frames. The
+            two methods produced the same result, providing an independent check
+            of the kinematic derivation before it was carried into the dynamic model.
+          </p>
+
+          <article class="visual-card">
+            <div class="media-frame wide hover-stack kinematic-media" tabindex="0">
+              <img
+                src="photos/matrixtsfm.png"
+                alt="Fork-to-frame coordinate transformation matrices and velocity-transfer equations"
+              >
+              <img
+                src="../../photos-main/cooridnate_tsf.png"
+                alt="Bicycle coordinate-system transformation diagram"
+              >
+            </div>
+
+            <h3>Kinematic Transfer</h3>
+
+            <p>
+              Body-coordinate definitions, angle conventions, and the rotation
+              matrices used to transfer the shared-joint and centre-of-mass
+              velocity relationships between coordinate systems.
+            </p>
+          </article>
+        </section>
+
+        <section class="summary-card full">
+          <h2 class="section-heading">Coupled Dynamics</h2>
+
+          <p>
+            Newton-Euler force and moment balances describe the external forces,
+            internal reactions, applied torques, and inertial terms acting on
+            each rigid body. Because the four bodies share joints and wheel-ground
+            contact conditions, the unknown reactions and accelerations form one
+            coupled dynamic system.
+          </p>
+
+          <p>
+            The equations include weight, wheel-ground contact, internal joint
+            reactions, applied wheel and steering moments, and the inertial terms
+            created by three-dimensional motion. SolidWorks principal inertias
+            were aligned with the mathematical coordinate conventions and mapped
+            into the appropriate body frames.
+          </p>
+
+          <p>
+            I aligned notation across the derivations, organized the equations
+            by body and axis, established fixed equation and unknown-vector orders,
+            checked the equation and unknown counts, and incorporated revisions
+            to the contact-force structure before assembling the numerical system.
+          </p>
+
+          <article class="visual-card">
+            <div class="media-frame wide">
+              <img
+                src="photos/fbd.png"
+                alt="Combined free-body diagrams for the bicycle rigid bodies"
+              >
+            </div>
+
+            <h3>Free-Body Model</h3>
+
+            <p>
+              Front wheel, fork, frame and rider, and rear-wheel free-body diagrams
+              showing the external loads and the internal reactions transferred
+              between connected bodies.
+            </p>
+          </article>
+        </section>
+
+        <section class="summary-card full">
+          <h2 class="section-heading">MATLAB Inverse-Dynamics Model</h2>
+
+          <p>
+            Using the existing SolidWorks model and Haoyuan Jin's prior parameter
+            definitions, I obtained the required lengths, rigid-body masses,
+            centre-of-mass locations, and principal inertias. The values were
+            converted to consistent units and mapped into the body-coordinate
+            definitions used by the analytical equations. Front and rear wheel
+            inertias were treated as equal in V1, and additional drivetrain gear
+            inertia was neglected because it is concentrated near the rear axle.
+          </p>
+
+          <p>
+            I implemented Dr. Budiman's 18-equation dynamic set using the current
+            V1 assumptions and the measured ride histories. The equations include
+            propulsion and steering relationships together with additional dynamic
+            constraints associated with wheel-ground friction and no-slip motion.
+            Experimental angles and wheel speeds are substituted first, the motion
+            histories are smoothed and differentiated, and the remaining linear
+            system is solved numerically at each time step for 14 unknown forces
+            and torques.
+          </p>
+
+          <div class="system-list">
+            <div class="system-row">
+              <strong>Inputs</strong>
+              <span>SolidWorks geometry and mass properties, experimental orientation histories, wheel speeds, V1 assumptions, and dynamic constraints.</span>
+            </div>
+            <div class="system-row">
+              <strong>Process</strong>
+              <span>Substitute measured motion, smooth and differentiate the experimental histories, evaluate the 18 analytical equations, assemble the linear system, and solve the 14 unknown forces and torques at each time step.</span>
+            </div>
+            <div class="system-row">
+              <strong>Outputs</strong>
+              <span>Time histories of internal reaction forces, wheel-ground contact components, friction forces, and applied torques across each ride trial.</span>
+            </div>
+
+            <div class="system-row">
+              <strong>Verification</strong>
+              <span>Equation left-right balance, residual RMS error, matrix rank and conditioning, consistency across trials, and comparison of independently testable equations.</span>
+            </div>
+          </div>
+
+          <article class="visual-card">
+            <div class="media-frame wide">
+              <img
+                src="photos/eqsgraphs.png"
+                alt="Representative analytical equations and MATLAB validation graphs"
+              >
+            </div>
+
+            <h3>MATLAB Validation</h3>
+
+            <p>
+              Representative left- and right-side force or moment balances from
+              the 18-equation inverse-dynamics solve, plotted across the measured
+              ride motion to compare equation closure through time.
+            </p>
+          </article>
+        </section>
+
+        <section class="summary-card full">
+          <h2 class="section-heading">Conclusion</h2>
+
+          <p>
+            The V1 inverse-dynamics model now connects the current analytical
+            assumptions, SolidWorks physical parameters, and measured bicycle
+            motion across all 18 dynamic equations and the available experimental trials.
+          </p>
+
+          <div class="system-list">
+            <div class="system-row">
+              <strong>Current Outcome</strong>
+              <span>The inverse-dynamics implementation was run across all 16 available ride trials and solved for 14 unknown reaction forces, ground-contact components, friction forces, and applied torques. The numerical system remained full rank across the trials.</span>
+            </div>
+            <div class="system-row">
+              <strong>Equation Results</strong>
+              <span>Eight remaining equations could be evaluated independently. Most trials showed comparatively low closure error, while Equation 3 produced the largest recurring discrepancy, followed by Equations 6 and 10. One ride trial was identified as a clear outlier because several equations disagreed simultaneously.</span>
+            </div>
+            <div class="system-row">
+              <strong>Interpretation</strong>
+              <span>The current results establish a working experimental-input solution and isolate specific discrepancies for investigation, but do not yet determine whether they originate from signal processing, physical parameters, V1 assumptions, or the analytical formulation.</span>
+            </div>
+            <div class="system-row">
+              <strong>Next Step</strong>
+              <span>Determine whether to investigate the outlier trial and Equation 3 first or proceed to the forward differential-equation model and compare simulated motion against the measured response.</span>
+            </div>
+
+            <div class="system-row">
+              <strong>My Contribution</strong>
+              <span>Multibody kinematics, coordinate-system verification, SolidWorks parameterization, equation-system organization, experimental inverse-dynamics implementation, and numerical verification across the ride trials.</span>
+            </div>
+          </div>
+        </section>
+
+      </section>
+
+      <footer
+        class="project-footer"
+        aria-label="Project navigation"
+      >
+        <a class="all-projects-link" href="../../index.html">
+          <span aria-hidden="true">←</span>
+          <span>Back to all projects</span>
+        </a>
+
+        <!-- Update this path if the final Yankeaur page uses a different filename. -->
+        <a class="next-project-link" href="../bmeirt-shoulder/shoulder.html">
+          <span class="next-project-label">Next project</span>
+          <span class="next-project-title">Yankeaur Assistive Robotic Arm</span>
+        </a>
+      </footer>
+    </article>
+  </main>
+</body>
+</html>
