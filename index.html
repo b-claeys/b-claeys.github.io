@@ -2486,6 +2486,496 @@
     }
   </style>
 
+
+  <style id="v11-compact-index-header">
+    /* V11: compact the index without changing the selected visual system. */
+
+    /* Cleaner hero geometry: same left/right edges, fewer competing offsets. */
+    .site-header {
+      min-height: 248px !important;
+      padding-top: 18px !important;
+      padding-bottom: 28px !important;
+      display: block !important;
+    }
+
+    .identity-block {
+      width: 100% !important;
+      padding: 0 !important;
+    }
+
+    .name {
+      max-width: 620px;
+      margin: 0 0 24px !important;
+      font-size: clamp(66px, 8.2vw, 116px) !important;
+      line-height: 0.82 !important;
+      letter-spacing: 0.012em !important;
+    }
+
+    .identity {
+      width: 100% !important;
+      max-width: none !important;
+      gap: 8px !important;
+    }
+
+    .identity-major {
+      font-size: clamp(11px, 1vw, 14px) !important;
+      line-height: 1.15 !important;
+      letter-spacing: 0.085em !important;
+    }
+
+    .identity-bottom-row {
+      width: 100% !important;
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) auto !important;
+      align-items: baseline !important;
+      gap: 28px !important;
+    }
+
+    .identity-university {
+      font-size: clamp(11px, 1vw, 14px) !important;
+      line-height: 1.15 !important;
+      letter-spacing: 0.08em !important;
+    }
+
+    .header-pdf-link,
+    .header-pdf-link:visited {
+      justify-self: end !important;
+      transform: translateX(-3px) !important;
+      margin: 0 !important;
+      line-height: 1.1 !important;
+    }
+
+    /* Nav shares the same right edge and top datum as the name. */
+    .refined-nav {
+      top: 19px !important;
+      right: 3px !important;
+    }
+
+    .refined-nav-inner {
+      gap: clamp(20px, 2.1vw, 30px) !important;
+      font-size: 11px !important;
+      letter-spacing: 0.09em !important;
+    }
+
+    .refined-nav a,
+    .refined-nav button {
+      padding: 2px 0 8px !important;
+    }
+
+    /* Keep the chapter washes, remove the marathon-length dead space between them. */
+    .featured {
+      gap: clamp(22px, 2.8vw, 38px) !important;
+      padding-top: 34px !important;
+      padding-bottom: 46px !important;
+    }
+
+    .project {
+      padding-top: clamp(27px, 2.8vw, 36px) !important;
+      padding-bottom: clamp(27px, 2.8vw, 36px) !important;
+    }
+
+    /* Preserve the faded project separation at the tighter rhythm. */
+    .project::before {
+      top: -2px !important;
+      bottom: -2px !important;
+    }
+
+    /* Past Projects also arrives sooner after the final featured project. */
+    .supporting {
+      padding-top: 38px !important;
+      padding-bottom: 48px !important;
+    }
+
+    /* Footer is intentionally gone on the index. */
+    .page-footer { display: none !important; }
+
+    @media (max-width: 980px) {
+      .site-header {
+        min-height: 232px !important;
+        padding-top: 18px !important;
+      }
+      .refined-nav { top: 19px !important; }
+      .name { max-width: 58vw; }
+    }
+
+    @media (max-width: 760px) {
+      .site-header {
+        min-height: 278px !important;
+        padding-top: 22px !important;
+        padding-bottom: 26px !important;
+      }
+      .refined-nav {
+        top: 22px !important;
+        right: 0 !important;
+      }
+      .refined-nav-inner {
+        gap: 15px !important;
+        font-size: 9.5px !important;
+      }
+      .name {
+        max-width: 58vw;
+        font-size: clamp(54px, 10vw, 74px) !important;
+        margin-bottom: 22px !important;
+      }
+      .featured {
+        gap: 22px !important;
+        padding-top: 28px !important;
+      }
+      .project {
+        padding-top: 26px !important;
+        padding-bottom: 26px !important;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .site-header {
+        min-height: 300px !important;
+      }
+      .refined-nav {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        margin-bottom: 20px !important;
+      }
+      .refined-nav-inner {
+        justify-content: flex-start !important;
+        font-size: 9px !important;
+      }
+      .name {
+        max-width: none;
+        font-size: 58px !important;
+      }
+      .identity-bottom-row {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+      }
+      .header-pdf-link,
+      .header-pdf-link:visited {
+        justify-self: start !important;
+        transform: none !important;
+      }
+    }
+  </style>
+
+
+  <style id="v12-softened-square-final">
+    /* Option 01 — softened square. Passive treatment on all index imagery. */
+    .artifact {
+      border-radius: 5px !important;
+      border-color: rgba(93, 126, 148, 0.12) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+      overflow: hidden !important;
+    }
+
+    .artifact img {
+      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
+      transition: filter 220ms ease, transform 220ms ease !important;
+    }
+
+    .artifact::after,
+    .artifact.viewable::after {
+      content: '' !important;
+      position: absolute !important;
+      inset: 0 !important;
+      z-index: 4 !important;
+      background: rgba(7, 24, 37, 0.06) !important;
+      opacity: 1 !important;
+      transform: none !important;
+      pointer-events: none !important;
+      transition: background 200ms ease !important;
+    }
+
+    /* Featured supporting images remain clickable but deliberately quiet, as in the original site. */
+    .featured .support-artifacts .artifact:hover,
+    .featured .support-artifacts .artifact:focus-visible {
+      border-color: rgba(93, 126, 148, 0.12) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+      transform: none !important;
+      outline: none !important;
+    }
+
+    .featured .support-artifacts .artifact:hover img,
+    .featured .support-artifacts .artifact:focus-visible img {
+      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
+      transform: none !important;
+    }
+
+    .featured .support-artifacts .artifact:hover::after,
+    .featured .support-artifacts .artifact:focus-visible::after {
+      background: rgba(7, 24, 37, 0.06) !important;
+    }
+
+    .project:has(.support-artifacts .artifact:hover) .project-title a,
+    .project:has(.support-artifacts .artifact:focus-visible) .project-title a {
+      color: #49636f !important;
+    }
+
+    .project:has(.support-artifacts .artifact:hover) .main-artifact,
+    .project:has(.support-artifacts .artifact:focus-visible) .main-artifact {
+      border-color: rgba(93, 126, 148, 0.12) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+      transform: none !important;
+    }
+
+    .project:has(.support-artifacts .artifact:hover) .main-artifact::after,
+    .project:has(.support-artifacts .artifact:focus-visible) .main-artifact::after {
+      background: rgba(7, 24, 37, 0.06) !important;
+    }
+
+    .project:has(.support-artifacts .artifact:hover) .main-artifact img,
+    .project:has(.support-artifacts .artifact:focus-visible) .main-artifact img {
+      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
+    }
+
+    /* Keep the strong blue response only on the homepage images that originally had hover behavior. */
+    .project .main-artifact:hover,
+    .project .main-artifact:focus-visible,
+    .project:has(.project-title a:hover) .main-artifact,
+    .project:has(.project-title a:focus-visible) .main-artifact {
+      border-color: rgba(76, 122, 149, 0.82) !important;
+      box-shadow:
+        0 0 0 1px rgba(69, 112, 139, 0.42),
+        0 0 30px rgba(29, 73, 98, 0.28),
+        0 18px 42px rgba(0, 0, 0, 0.30) !important;
+      transform: translateY(-2px) !important;
+    }
+
+    .project .main-artifact:hover img,
+    .project .main-artifact:focus-visible img,
+    .project:has(.project-title a:hover) .main-artifact img,
+    .project:has(.project-title a:focus-visible) .main-artifact img {
+      filter: brightness(0.90) saturate(0.96) contrast(0.99) !important;
+    }
+
+    .project .main-artifact:hover::after,
+    .project .main-artifact:focus-visible::after,
+    .project:has(.project-title a:hover) .main-artifact::after,
+    .project:has(.project-title a:focus-visible) .main-artifact::after {
+      background: rgba(18, 50, 69, 0.025) !important;
+    }
+
+    .project:has(.main-artifact:hover) .project-title a,
+    .project:has(.main-artifact:focus-visible) .project-title a,
+    .project:has(.project-title a:hover) .project-title a,
+    .project:has(.project-title a:focus-visible) .project-title a {
+      color: #78909a !important;
+    }
+
+    /* Past Project cards also had native hover behavior; preserve it with the same blue language. */
+    .support-card:hover .artifact,
+    .support-card:focus-within .artifact,
+    .support-card .artifact:hover,
+    .support-card .artifact:focus-visible {
+      border-color: rgba(70, 112, 137, 0.68) !important;
+      box-shadow:
+        0 0 0 1px rgba(62, 101, 125, 0.30),
+        0 0 24px rgba(25, 62, 84, 0.20),
+        0 15px 34px rgba(0, 0, 0, 0.25) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    .support-card:hover .artifact img,
+    .support-card:focus-within .artifact img,
+    .support-card .artifact:hover img,
+    .support-card .artifact:focus-visible img {
+      filter: brightness(0.89) saturate(0.95) contrast(0.99) !important;
+    }
+
+    .support-card:hover .artifact::after,
+    .support-card:focus-within .artifact::after,
+    .support-card .artifact:hover::after,
+    .support-card .artifact:focus-visible::after {
+      background: rgba(18, 50, 69, 0.03) !important;
+    }
+  </style>
+
+
+  <style id="v14-sample-hover-main-only">
+    /* Exact Option 01 interaction language, restricted to the three featured main images/titles. */
+
+    /* Supporting featured images (including CAD) remain completely passive. */
+    .featured .support-artifacts .artifact,
+    .featured .support-artifacts .artifact:hover,
+    .featured .support-artifacts .artifact:focus-visible {
+      border-color: rgba(93, 126, 148, 0.12) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+      transform: none !important;
+      outline: none !important;
+    }
+
+    .featured .support-artifacts .artifact img,
+    .featured .support-artifacts .artifact:hover img,
+    .featured .support-artifacts .artifact:focus-visible img {
+      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
+      transform: none !important;
+    }
+
+    .featured .support-artifacts .artifact::after,
+    .featured .support-artifacts .artifact:hover::after,
+    .featured .support-artifacts .artifact:focus-visible::after {
+      background: rgba(7, 24, 37, 0.06) !important;
+    }
+
+    /* A supporting-image hover must not trigger its featured title or main image. */
+    .project:has(.support-artifacts .artifact:hover) .project-title a,
+    .project:has(.support-artifacts .artifact:focus-visible) .project-title a {
+      color: #49636f !important;
+    }
+
+    .project:has(.support-artifacts .artifact:hover) .main-artifact,
+    .project:has(.support-artifacts .artifact:focus-visible) .main-artifact {
+      border-color: rgba(93, 126, 148, 0.12) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+      transform: none !important;
+    }
+
+    .project:has(.support-artifacts .artifact:hover) .main-artifact img,
+    .project:has(.support-artifacts .artifact:focus-visible) .main-artifact img {
+      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
+      transform: none !important;
+    }
+
+    .project:has(.support-artifacts .artifact:hover) .main-artifact::after,
+    .project:has(.support-artifacts .artifact:focus-visible) .main-artifact::after {
+      background: rgba(7, 24, 37, 0.06) !important;
+    }
+
+    /* Past-project imagery also stays passive: no blanket image hover was requested. */
+    .support-card .artifact,
+    .support-card:hover .artifact,
+    .support-card:focus-within .artifact,
+    .support-card .artifact:hover,
+    .support-card .artifact:focus-visible {
+      border-color: rgba(93, 126, 148, 0.12) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+      transform: none !important;
+      outline: none !important;
+    }
+
+    .support-card .artifact img,
+    .support-card:hover .artifact img,
+    .support-card:focus-within .artifact img,
+    .support-card .artifact:hover img,
+    .support-card .artifact:focus-visible img {
+      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
+      transform: none !important;
+    }
+
+    .support-card .artifact::after,
+    .support-card:hover .artifact::after,
+    .support-card:focus-within .artifact::after,
+    .support-card .artifact:hover::after,
+    .support-card .artifact:focus-visible::after {
+      background: rgba(7, 24, 37, 0.06) !important;
+    }
+
+    /* OPTION 01 SAMPLE HOVER — main image only. */
+    .project .main-artifact:hover,
+    .project .main-artifact:focus-visible,
+    .project:has(.project-title a:hover) .main-artifact,
+    .project:has(.project-title a:focus-visible) .main-artifact {
+      border-color: rgba(95, 145, 177, 0.55) !important;
+      box-shadow:
+        0 0 0 1px rgba(67, 112, 141, 0.20),
+        0 15px 35px rgba(0, 0, 0, 0.24) !important;
+      transform: none !important;
+      outline: none !important;
+    }
+
+    .project .main-artifact:hover img,
+    .project .main-artifact:focus-visible img,
+    .project:has(.project-title a:hover) .main-artifact img,
+    .project:has(.project-title a:focus-visible) .main-artifact img {
+      filter: brightness(0.90) saturate(0.96) contrast(0.99) !important;
+      transform: scale(1.012) !important;
+    }
+
+    .project .main-artifact:hover::after,
+    .project .main-artifact:focus-visible::after,
+    .project:has(.project-title a:hover) .main-artifact::after,
+    .project:has(.project-title a:focus-visible) .main-artifact::after {
+      background: rgba(7, 24, 37, 0.025) !important;
+    }
+
+    /* Main image <-> main title remain linked. */
+    .project:has(.main-artifact:hover) .project-title a,
+    .project:has(.main-artifact:focus-visible) .project-title a,
+    .project:has(.project-title a:hover) .project-title a,
+    .project:has(.project-title a:focus-visible) .project-title a {
+      color: #7894a5 !important;
+    }
+  </style>
+
+
+
+  <style id="v15-actual-blue-highlight">
+    /* V15: actual visible highlight, only on the three featured main images + linked titles. */
+    .project .main-artifact {
+      transition: border-color 180ms ease, box-shadow 200ms ease, transform 180ms ease !important;
+    }
+
+    .project .main-artifact::after {
+      transition: background 180ms ease, box-shadow 180ms ease !important;
+    }
+
+    /* The highlight itself: a clear blue wash over the image, plus a bright blue perimeter/glow. */
+    .project .main-artifact:hover,
+    .project .main-artifact:focus-visible,
+    .project:has(.project-title a:hover) .main-artifact,
+    .project:has(.project-title a:focus-visible) .main-artifact {
+      border-color: rgba(106, 165, 201, 0.82) !important;
+      box-shadow:
+        0 0 0 1px rgba(87, 145, 181, 0.58),
+        0 0 30px rgba(41, 103, 141, 0.34),
+        0 18px 38px rgba(0, 0, 0, 0.28) !important;
+      transform: translateY(-1px) !important;
+      outline: none !important;
+    }
+
+    .project .main-artifact:hover::after,
+    .project .main-artifact:focus-visible::after,
+    .project:has(.project-title a:hover) .main-artifact::after,
+    .project:has(.project-title a:focus-visible) .main-artifact::after {
+      background: rgba(38, 94, 128, 0.22) !important;
+      box-shadow: inset 0 0 0 1px rgba(146, 194, 220, 0.18) !important;
+    }
+
+    .project .main-artifact:hover img,
+    .project .main-artifact:focus-visible img,
+    .project:has(.project-title a:hover) .main-artifact img,
+    .project:has(.project-title a:focus-visible) .main-artifact img {
+      filter: brightness(0.96) saturate(0.98) contrast(1.01) !important;
+      transform: scale(1.012) !important;
+    }
+
+    /* Image hover and title hover are linked in both directions. */
+    .project:has(.main-artifact:hover) .project-title a,
+    .project:has(.main-artifact:focus-visible) .project-title a,
+    .project:has(.project-title a:hover) .project-title a,
+    .project:has(.project-title a:focus-visible) .project-title a {
+      color: #91b6ca !important;
+      text-shadow: 0 0 18px rgba(71, 132, 167, 0.26) !important;
+    }
+
+    /* Supporting/CAD images remain passive. Do not inherit any featured highlight. */
+    .featured .support-artifacts .artifact:hover,
+    .featured .support-artifacts .artifact:focus-visible {
+      border-color: rgba(93, 126, 148, 0.12) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+      transform: none !important;
+    }
+    .featured .support-artifacts .artifact:hover::after,
+    .featured .support-artifacts .artifact:focus-visible::after {
+      background: rgba(7, 24, 37, 0.06) !important;
+      box-shadow: none !important;
+    }
+    .featured .support-artifacts .artifact:hover img,
+    .featured .support-artifacts .artifact:focus-visible img {
+      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
+      transform: none !important;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -2764,7 +3254,7 @@
         <article class="support-card">
           <a
             class="artifact viewable"
-            href="projects_/robot/robot%20(1).html"
+            href="projects_/robot/robot.html"
             aria-label="View Mini Delivery Robot project"
           >
             <img
@@ -2775,7 +3265,7 @@
 
           <div>
             <h3 class="support-title">
-              <a href="projects_/robot/robot%20(1).html">
+              <a href="projects_/robot/robot.html">
                 Mini Delivery Robot
               </a>
             </h3>
@@ -2813,17 +3303,6 @@
 
       </div>
     </section>
-
-    <footer class="page-footer reveal">
-      <div class="footer-contact">
-        <span class="footer-label">Contact</span>
-        <a class="footer-email" href="mailto:5brooklync15@gmail.com">5brooklync15@gmail.com</a>
-      </div>
-      <div class="footer-actions">
-        <a href="aboutme.html">About Me</a>
-        <button type="button" id="contact-open-footer" aria-haspopup="dialog" aria-controls="contact-dialog">Send a Message</button>
-      </div>
-    </footer>
 
     <dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-title">
       <div class="contact-card">
