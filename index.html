@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 
-<html lang="en" class="js">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Brooklyn Claeys — Mechanical Engineering portfolio featuring dynamics research, robotics, wearable sensing, controls, CAD, and prototyping." />
+  <meta name="theme-color" content="#000102" />
+  <script>document.documentElement.classList.add('js');</script>
   <title>Brooklyn Claeys | Mechanical Engineering</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2657,143 +2660,58 @@
     }
   </style>
 
-
-  <style id="v12-softened-square-final">
-    /* Option 01 — softened square. Passive treatment on all index imagery. */
-    .artifact {
-      border-radius: 5px !important;
-      border-color: rgba(93, 126, 148, 0.12) !important;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
-      overflow: hidden !important;
+  <style id="v16-cad-accent-hover-fix">
+    /* =========================================================
+       FINAL INDEX PATCH
+       Base design remains unchanged. This block only:
+       1) introduces the CAD orange as a second accent,
+       2) resolves the stacked homepage hover overrides,
+       3) keeps supporting/CAD imagery passive.
+       ========================================================= */
+    :root {
+      --cad-accent: #FF7A32;
+      --cad-accent-soft: rgba(255, 122, 50, 0.16);
+      --cad-accent-line: rgba(255, 122, 50, 0.72);
+      --cad-accent-glow: rgba(255, 122, 50, 0.24);
     }
 
-    .artifact img {
-      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
-      transition: filter 220ms ease, transform 220ms ease !important;
+    /* Small, deliberate second-accent moments. */
+    .refined-nav a[aria-current="page"]::after {
+      background: var(--cad-accent) !important;
     }
 
-    .artifact::after,
-    .artifact.viewable::after {
-      content: '' !important;
-      position: absolute !important;
-      inset: 0 !important;
-      z-index: 4 !important;
-      background: rgba(7, 24, 37, 0.06) !important;
-      opacity: 1 !important;
-      transform: none !important;
-      pointer-events: none !important;
-      transition: background 200ms ease !important;
+    .project-links {
+      color: var(--cad-accent) !important;
     }
 
-    /* Featured supporting images remain clickable but deliberately quiet, as in the original site. */
-    .featured .support-artifacts .artifact:hover,
-    .featured .support-artifacts .artifact:focus-visible {
-      border-color: rgba(93, 126, 148, 0.12) !important;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
-      transform: none !important;
-      outline: none !important;
+    .progress-dot.is-active {
+      background: var(--cad-accent) !important;
+      border-color: var(--cad-accent) !important;
+      box-shadow: 0 0 9px var(--cad-accent-soft) !important;
     }
 
-    .featured .support-artifacts .artifact:hover img,
-    .featured .support-artifacts .artifact:focus-visible img {
-      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
-      transform: none !important;
+    .progress-dot:hover,
+    .progress-dot:focus-visible {
+      border-color: var(--cad-accent-line) !important;
     }
 
-    .featured .support-artifacts .artifact:hover::after,
-    .featured .support-artifacts .artifact:focus-visible::after {
-      background: rgba(7, 24, 37, 0.06) !important;
+    .past-heading-line {
+      background: linear-gradient(90deg, var(--cad-accent-line), var(--ref-line) 22%, var(--ref-line) 100%) !important;
     }
 
-    .project:has(.support-artifacts .artifact:hover) .project-title a,
-    .project:has(.support-artifacts .artifact:focus-visible) .project-title a {
-      color: #49636f !important;
+    .header-pdf-link:hover,
+    .header-pdf-link:focus-visible {
+      color: var(--cad-accent) !important;
     }
 
-    .project:has(.support-artifacts .artifact:hover) .main-artifact,
-    .project:has(.support-artifacts .artifact:focus-visible) .main-artifact {
-      border-color: rgba(93, 126, 148, 0.12) !important;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
-      transform: none !important;
+    .contact-kicker {
+      color: var(--cad-accent) !important;
     }
 
-    .project:has(.support-artifacts .artifact:hover) .main-artifact::after,
-    .project:has(.support-artifacts .artifact:focus-visible) .main-artifact::after {
-      background: rgba(7, 24, 37, 0.06) !important;
-    }
-
-    .project:has(.support-artifacts .artifact:hover) .main-artifact img,
-    .project:has(.support-artifacts .artifact:focus-visible) .main-artifact img {
-      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
-    }
-
-    /* Keep the strong blue response only on the homepage images that originally had hover behavior. */
-    .project .main-artifact:hover,
-    .project .main-artifact:focus-visible,
-    .project:has(.project-title a:hover) .main-artifact,
-    .project:has(.project-title a:focus-visible) .main-artifact {
-      border-color: rgba(76, 122, 149, 0.82) !important;
-      box-shadow:
-        0 0 0 1px rgba(69, 112, 139, 0.42),
-        0 0 30px rgba(29, 73, 98, 0.28),
-        0 18px 42px rgba(0, 0, 0, 0.30) !important;
-      transform: translateY(-2px) !important;
-    }
-
-    .project .main-artifact:hover img,
-    .project .main-artifact:focus-visible img,
-    .project:has(.project-title a:hover) .main-artifact img,
-    .project:has(.project-title a:focus-visible) .main-artifact img {
-      filter: brightness(0.90) saturate(0.96) contrast(0.99) !important;
-    }
-
-    .project .main-artifact:hover::after,
-    .project .main-artifact:focus-visible::after,
-    .project:has(.project-title a:hover) .main-artifact::after,
-    .project:has(.project-title a:focus-visible) .main-artifact::after {
-      background: rgba(18, 50, 69, 0.025) !important;
-    }
-
-    .project:has(.main-artifact:hover) .project-title a,
-    .project:has(.main-artifact:focus-visible) .project-title a,
-    .project:has(.project-title a:hover) .project-title a,
-    .project:has(.project-title a:focus-visible) .project-title a {
-      color: #78909a !important;
-    }
-
-    /* Past Project cards also had native hover behavior; preserve it with the same blue language. */
-    .support-card:hover .artifact,
-    .support-card:focus-within .artifact,
-    .support-card .artifact:hover,
-    .support-card .artifact:focus-visible {
-      border-color: rgba(70, 112, 137, 0.68) !important;
-      box-shadow:
-        0 0 0 1px rgba(62, 101, 125, 0.30),
-        0 0 24px rgba(25, 62, 84, 0.20),
-        0 15px 34px rgba(0, 0, 0, 0.25) !important;
-      transform: translateY(-1px) !important;
-    }
-
-    .support-card:hover .artifact img,
-    .support-card:focus-within .artifact img,
-    .support-card .artifact:hover img,
-    .support-card .artifact:focus-visible img {
-      filter: brightness(0.89) saturate(0.95) contrast(0.99) !important;
-    }
-
-    .support-card:hover .artifact::after,
-    .support-card:focus-within .artifact::after,
-    .support-card .artifact:hover::after,
-    .support-card .artifact:focus-visible::after {
-      background: rgba(18, 50, 69, 0.03) !important;
-    }
-  </style>
-
-
-  <style id="v14-sample-hover-main-only">
-    /* Exact Option 01 interaction language, restricted to the three featured main images/titles. */
-
-    /* Supporting featured images (including CAD) remain completely passive. */
+    /* ---------------------------------------------------------
+       Featured support images: still clickable, visually passive.
+       They must never trigger the featured title/main-image hover.
+       --------------------------------------------------------- */
     .featured .support-artifacts .artifact,
     .featured .support-artifacts .artifact:hover,
     .featured .support-artifacts .artifact:focus-visible {
@@ -2813,13 +2731,21 @@
     .featured .support-artifacts .artifact::after,
     .featured .support-artifacts .artifact:hover::after,
     .featured .support-artifacts .artifact:focus-visible::after {
+      content: '' !important;
+      position: absolute !important;
+      inset: 0 !important;
+      z-index: 4 !important;
+      opacity: 1 !important;
+      transform: none !important;
+      pointer-events: none !important;
       background: rgba(7, 24, 37, 0.06) !important;
+      box-shadow: none !important;
     }
 
-    /* A supporting-image hover must not trigger its featured title or main image. */
     .project:has(.support-artifacts .artifact:hover) .project-title a,
     .project:has(.support-artifacts .artifact:focus-visible) .project-title a {
       color: #49636f !important;
+      text-shadow: none !important;
     }
 
     .project:has(.support-artifacts .artifact:hover) .main-artifact,
@@ -2838,14 +2764,82 @@
     .project:has(.support-artifacts .artifact:hover) .main-artifact::after,
     .project:has(.support-artifacts .artifact:focus-visible) .main-artifact::after {
       background: rgba(7, 24, 37, 0.06) !important;
+      box-shadow: none !important;
     }
 
-    /* Past-project imagery also stays passive: no blanket image hover was requested. */
+    /* ---------------------------------------------------------
+       Featured main image + title: one clear, synced hover state.
+       Orange is the perimeter/accent; the established title blue stays.
+       --------------------------------------------------------- */
+    .project .main-artifact {
+      border-radius: 5px !important;
+      border-color: rgba(93, 126, 148, 0.12) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+      overflow: hidden !important;
+      transition: border-color 180ms ease, box-shadow 200ms ease, transform 180ms ease !important;
+    }
+
+    .project .main-artifact img {
+      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
+      transition: filter 220ms ease, transform 220ms ease !important;
+    }
+
+    .project .main-artifact::after {
+      content: '' !important;
+      position: absolute !important;
+      inset: 0 !important;
+      z-index: 4 !important;
+      opacity: 1 !important;
+      transform: none !important;
+      pointer-events: none !important;
+      background: rgba(7, 24, 37, 0.06) !important;
+      transition: background 180ms ease, box-shadow 180ms ease !important;
+    }
+
+    .project .main-artifact:hover,
+    .project .main-artifact:focus-visible,
+    .project:has(.project-title a:hover) .main-artifact,
+    .project:has(.project-title a:focus-visible) .main-artifact {
+      border-color: var(--cad-accent) !important;
+      box-shadow:
+        0 0 0 1px var(--cad-accent-line),
+        0 0 30px var(--cad-accent-glow),
+        0 18px 38px rgba(0, 0, 0, 0.28) !important;
+      transform: translateY(-1px) !important;
+      outline: none !important;
+    }
+
+    .project .main-artifact:hover::after,
+    .project .main-artifact:focus-visible::after,
+    .project:has(.project-title a:hover) .main-artifact::after,
+    .project:has(.project-title a:focus-visible) .main-artifact::after {
+      background: rgba(255, 122, 50, 0.055) !important;
+      box-shadow: inset 0 0 0 1px rgba(255, 190, 150, 0.14) !important;
+    }
+
+    .project .main-artifact:hover img,
+    .project .main-artifact:focus-visible img,
+    .project:has(.project-title a:hover) .main-artifact img,
+    .project:has(.project-title a:focus-visible) .main-artifact img {
+      filter: brightness(0.96) saturate(0.98) contrast(1.01) !important;
+      transform: scale(1.012) !important;
+    }
+
+    .project:has(.main-artifact:hover) .project-title a,
+    .project:has(.main-artifact:focus-visible) .project-title a,
+    .project:has(.project-title a:hover) .project-title a,
+    .project:has(.project-title a:focus-visible) .project-title a {
+      color: #91b6ca !important;
+      text-shadow: 0 0 18px rgba(71, 132, 167, 0.26) !important;
+    }
+
+    /* Past-project images remain as they were visually: no blanket image glow. */
     .support-card .artifact,
     .support-card:hover .artifact,
     .support-card:focus-within .artifact,
     .support-card .artifact:hover,
     .support-card .artifact:focus-visible {
+      border-radius: 5px !important;
       border-color: rgba(93, 126, 148, 0.12) !important;
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
       transform: none !important;
@@ -2866,113 +2860,381 @@
     .support-card:focus-within .artifact::after,
     .support-card .artifact:hover::after,
     .support-card .artifact:focus-visible::after {
-      background: rgba(7, 24, 37, 0.06) !important;
-    }
-
-    /* OPTION 01 SAMPLE HOVER — main image only. */
-    .project .main-artifact:hover,
-    .project .main-artifact:focus-visible,
-    .project:has(.project-title a:hover) .main-artifact,
-    .project:has(.project-title a:focus-visible) .main-artifact {
-      border-color: rgba(95, 145, 177, 0.55) !important;
-      box-shadow:
-        0 0 0 1px rgba(67, 112, 141, 0.20),
-        0 15px 35px rgba(0, 0, 0, 0.24) !important;
+      content: '' !important;
+      position: absolute !important;
+      inset: 0 !important;
+      z-index: 4 !important;
+      opacity: 1 !important;
       transform: none !important;
-      outline: none !important;
-    }
-
-    .project .main-artifact:hover img,
-    .project .main-artifact:focus-visible img,
-    .project:has(.project-title a:hover) .main-artifact img,
-    .project:has(.project-title a:focus-visible) .main-artifact img {
-      filter: brightness(0.90) saturate(0.96) contrast(0.99) !important;
-      transform: scale(1.012) !important;
-    }
-
-    .project .main-artifact:hover::after,
-    .project .main-artifact:focus-visible::after,
-    .project:has(.project-title a:hover) .main-artifact::after,
-    .project:has(.project-title a:focus-visible) .main-artifact::after {
-      background: rgba(7, 24, 37, 0.025) !important;
-    }
-
-    /* Main image <-> main title remain linked. */
-    .project:has(.main-artifact:hover) .project-title a,
-    .project:has(.main-artifact:focus-visible) .project-title a,
-    .project:has(.project-title a:hover) .project-title a,
-    .project:has(.project-title a:focus-visible) .project-title a {
-      color: #7894a5 !important;
+      pointer-events: none !important;
+      background: rgba(7, 24, 37, 0.06) !important;
+      box-shadow: none !important;
     }
   </style>
 
 
+  <style id="v17-production-polish">
+    /* =========================================================
+       PRODUCTION POLISH
+       No layout redesign. Refines hierarchy, interaction,
+       accessibility, image treatment, and accent consistency.
+       ========================================================= */
 
-  <style id="v15-actual-blue-highlight">
-    /* V15: actual visible highlight, only on the three featured main images + linked titles. */
-    .project .main-artifact {
-      transition: border-color 180ms ease, box-shadow 200ms ease, transform 180ms ease !important;
+    :root {
+      --cad-accent-hover: #FF7A32;
+      --cad-accent-hover-soft: rgba(255, 122, 50, 0.12);
+      --cad-accent-hover-line: rgba(255, 122, 50, 0.76);
+      --polish-muted: #849198;
+      --polish-caption: #bcc5ca;
     }
 
-    .project .main-artifact::after {
-      transition: background 180ms ease, box-shadow 180ms ease !important;
+    html { color-scheme: dark; }
+
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
 
-    /* The highlight itself: a clear blue wash over the image, plus a bright blue perimeter/glow. */
+    ::selection {
+      color: var(--ref-text);
+      background: rgba(255, 122, 50, 0.28);
+    }
+
+    /* Calm defaults; orange communicates an active interaction. */
+    .project-links {
+      color: var(--polish-muted) !important;
+      line-height: 1.25;
+    }
+
+    .project-links::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      flex: 0 0 auto;
+      margin-right: 1px;
+      border-radius: 50%;
+      background: var(--cad-accent-hover);
+      opacity: 0.82;
+      align-self: center;
+    }
+
+    .caption {
+      color: var(--polish-caption) !important;
+      line-height: 1.32 !important;
+      text-wrap: pretty;
+    }
+
+    .project-title,
+    .support-title,
+    .past-heading {
+      text-wrap: balance;
+    }
+
+    .support-descriptor,
+    .identity-university,
+    .refined-nav-inner {
+      color: var(--polish-muted);
+    }
+
+    /* Link language: blue at rest, orange on hover/focus. */
+    .refined-nav a::after,
+    .refined-nav button::after,
+    .footer-email::after,
+    .footer-actions a::after,
+    .footer-actions button::after {
+      background: var(--cad-accent-hover) !important;
+    }
+
+    .refined-nav a:hover,
+    .refined-nav a:focus-visible,
+    .refined-nav button:hover,
+    .refined-nav button:focus-visible,
+    .header-pdf-link:hover,
+    .header-pdf-link:focus-visible,
+    .project-title a:hover,
+    .project-title a:focus-visible,
+    .support-title a:hover,
+    .support-title a:focus-visible,
+    .support-card:hover .support-title a,
+    .support-card:focus-within .support-title a,
+    .contact-inline-email:hover,
+    .contact-inline-email:focus-visible,
+    .page-footer a:hover,
+    .page-footer a:focus-visible,
+    .page-footer button:hover,
+    .page-footer button:focus-visible {
+      color: var(--cad-accent-hover) !important;
+    }
+
+    /* Keep the large name elegant instead of turning the hero orange. */
+    .name-link:hover,
+    .name-link:focus-visible {
+      color: #e4e9ec !important;
+    }
+
+    .contact-inline-email {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: rgba(132, 145, 152, 0.38);
+      text-underline-offset: 3px;
+      transition: color 160ms ease, text-decoration-color 160ms ease;
+    }
+
+    .contact-inline-email:hover,
+    .contact-inline-email:focus-visible {
+      text-decoration-color: var(--cad-accent-hover);
+      outline: none;
+    }
+
+    /* Featured images: brighter at rest, crisp and unmistakably interactive on hover. */
+    .project .main-artifact,
+    .featured .support-artifacts .artifact,
+    .support-card .artifact {
+      border-color: rgba(93, 126, 148, 0.15) !important;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16) !important;
+    }
+
+    .project .main-artifact img {
+      filter: brightness(0.90) saturate(0.96) contrast(1.00) !important;
+    }
+
+    .featured .support-artifacts .artifact img {
+      filter: brightness(0.88) saturate(0.94) contrast(0.99) !important;
+    }
+
+    .support-card .artifact img {
+      filter: brightness(0.89) saturate(0.95) contrast(0.99) !important;
+      transition: filter 200ms ease, transform 200ms ease !important;
+    }
+
+    .project .main-artifact::after,
+    .featured .support-artifacts .artifact::after,
+    .support-card .artifact::after {
+      background: rgba(7, 24, 37, 0.025) !important;
+    }
+
     .project .main-artifact:hover,
     .project .main-artifact:focus-visible,
     .project:has(.project-title a:hover) .main-artifact,
     .project:has(.project-title a:focus-visible) .main-artifact {
-      border-color: rgba(106, 165, 201, 0.82) !important;
+      border-color: var(--cad-accent-hover-line) !important;
       box-shadow:
-        0 0 0 1px rgba(87, 145, 181, 0.58),
-        0 0 30px rgba(41, 103, 141, 0.34),
-        0 18px 38px rgba(0, 0, 0, 0.28) !important;
-      transform: translateY(-1px) !important;
-      outline: none !important;
+        0 0 0 1px rgba(255, 122, 50, 0.24),
+        0 0 20px var(--cad-accent-hover-soft),
+        0 20px 44px rgba(0, 0, 0, 0.30) !important;
+      transform: translateY(-2px) !important;
     }
 
     .project .main-artifact:hover::after,
     .project .main-artifact:focus-visible::after,
     .project:has(.project-title a:hover) .main-artifact::after,
     .project:has(.project-title a:focus-visible) .main-artifact::after {
-      background: rgba(38, 94, 128, 0.22) !important;
-      box-shadow: inset 0 0 0 1px rgba(146, 194, 220, 0.18) !important;
+      background: rgba(255, 122, 50, 0.028) !important;
+      box-shadow: inset 0 0 0 1px rgba(255, 186, 143, 0.10) !important;
     }
 
     .project .main-artifact:hover img,
     .project .main-artifact:focus-visible img,
     .project:has(.project-title a:hover) .main-artifact img,
     .project:has(.project-title a:focus-visible) .main-artifact img {
-      filter: brightness(0.96) saturate(0.98) contrast(1.01) !important;
-      transform: scale(1.012) !important;
+      filter: brightness(1.00) saturate(1.00) contrast(1.01) !important;
+      transform: scale(1.009) !important;
     }
 
-    /* Image hover and title hover are linked in both directions. */
     .project:has(.main-artifact:hover) .project-title a,
     .project:has(.main-artifact:focus-visible) .project-title a,
     .project:has(.project-title a:hover) .project-title a,
     .project:has(.project-title a:focus-visible) .project-title a {
-      color: #91b6ca !important;
-      text-shadow: 0 0 18px rgba(71, 132, 167, 0.26) !important;
+      color: var(--cad-accent-hover) !important;
+      text-shadow: none !important;
     }
 
-    /* Supporting/CAD images remain passive. Do not inherit any featured highlight. */
-    .featured .support-artifacts .artifact:hover,
+    /* Secondary featured CAD/support images stay visually passive on mouse hover,
+       but retain an accessible keyboard focus indicator. */
+    .featured .support-artifacts .artifact:hover {
+      border-color: rgba(93, 126, 148, 0.15) !important;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16) !important;
+      transform: none !important;
+    }
+
+    .featured .support-artifacts .artifact:hover img {
+      filter: brightness(0.88) saturate(0.94) contrast(0.99) !important;
+      transform: none !important;
+    }
+
     .featured .support-artifacts .artifact:focus-visible {
-      border-color: rgba(93, 126, 148, 0.12) !important;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
-      transform: none !important;
+      outline: 2px solid var(--cad-accent-hover) !important;
+      outline-offset: 3px !important;
     }
-    .featured .support-artifacts .artifact:hover::after,
-    .featured .support-artifacts .artifact:focus-visible::after {
-      background: rgba(7, 24, 37, 0.06) !important;
-      box-shadow: none !important;
+
+    /* Past-project cards get a smaller, quieter version of the same interaction. */
+    .support-card:hover .artifact,
+    .support-card:focus-within .artifact,
+    .support-card .artifact:hover,
+    .support-card .artifact:focus-visible {
+      border-color: rgba(255, 122, 50, 0.52) !important;
+      box-shadow:
+        0 0 0 1px rgba(255, 122, 50, 0.08),
+        0 16px 34px rgba(0, 0, 0, 0.22) !important;
+      transform: translateY(-1px) !important;
     }
-    .featured .support-artifacts .artifact:hover img,
-    .featured .support-artifacts .artifact:focus-visible img {
-      filter: brightness(0.82) saturate(0.92) contrast(0.98) !important;
-      transform: none !important;
+
+    .support-card:hover .artifact img,
+    .support-card:focus-within .artifact img,
+    .support-card .artifact:hover img,
+    .support-card .artifact:focus-visible img {
+      filter: brightness(0.98) saturate(0.99) contrast(1.00) !important;
+      transform: scale(1.006) !important;
+    }
+
+    /* Focus states are intentional and match the interaction system. */
+    .project-title a:focus-visible,
+    .support-title a:focus-visible,
+    .header-pdf-link:focus-visible,
+    .refined-nav a:focus-visible,
+    .refined-nav button:focus-visible,
+    .contact-submit:focus-visible,
+    .contact-close:focus-visible,
+    .progress-dot:focus-visible {
+      outline: 2px solid rgba(255, 122, 50, 0.82) !important;
+      outline-offset: 4px !important;
+    }
+
+    /* Contact panel follows the same action language. */
+    .contact-dialog {
+      border-color: rgba(93, 126, 148, 0.22) !important;
+      border-radius: 6px;
+    }
+
+    .contact-field input:focus,
+    .contact-field textarea:focus {
+      border-color: rgba(255, 122, 50, 0.68) !important;
+      box-shadow: 0 0 0 2px rgba(255, 122, 50, 0.055);
+    }
+
+    .contact-submit {
+      transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .contact-submit:hover,
+    .contact-submit:focus-visible {
+      color: var(--cad-accent-hover) !important;
+      border-color: rgba(255, 122, 50, 0.68) !important;
+      background: rgba(255, 122, 50, 0.035);
+    }
+
+    .contact-close:hover { color: var(--cad-accent-hover) !important; }
+
+    /* Small production details. */
+    .project,
+    .supporting { scroll-margin-top: 32px; }
+
+    .progress-dot {
+      touch-action: manipulation;
+    }
+
+    .progress-dot:hover,
+    .progress-dot:focus-visible {
+      border-color: var(--cad-accent-hover) !important;
+    }
+
+    .supporting { padding-bottom: 68px; }
+
+    @media (max-width: 980px) {
+      .caption { line-height: 1.38 !important; }
+    }
+
+    @media (max-width: 620px) {
+      .featured { gap: 44px !important; }
+      .project-links::before { width: 3px; height: 3px; }
+      .supporting { padding-bottom: 54px; }
+    }
+
+    @media (hover: none) {
+      .project .main-artifact:hover,
+      .support-card:hover .artifact,
+      .support-card .artifact:hover {
+        transform: none !important;
+      }
+    }
+  </style>
+
+
+  <style id="v18-final-accent-details">
+    /* Final requested details only: top-left revision accent, name hover,
+       orange image borders on interaction, and two controlled image crops. */
+
+    .portfolio-revision {
+      margin: 0 0 12px;
+      color: var(--cad-accent-hover);
+      font-family: var(--sans);
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .name-link:hover,
+    .name-link:focus-visible {
+      color: var(--cad-accent-hover) !important;
+    }
+
+    /* Featured project hero images: orange perimeter is the interaction cue. */
+    .project .main-artifact:hover,
+    .project .main-artifact:focus-visible,
+    .project:has(.project-title a:hover) .main-artifact,
+    .project:has(.project-title a:focus-visible) .main-artifact {
+      border-color: var(--cad-accent-hover) !important;
+      box-shadow:
+        0 0 0 1px rgba(255, 122, 50, 0.34),
+        0 0 23px rgba(255, 122, 50, 0.14),
+        0 20px 44px rgba(0, 0, 0, 0.30) !important;
+    }
+
+    /* Past-project hero cards use the same border language so the interaction
+       remains consistent after the featured section. */
+    .support-card:hover .artifact,
+    .support-card:focus-within .artifact,
+    .support-card .artifact:hover,
+    .support-card .artifact:focus-visible {
+      border-color: var(--cad-accent-hover-line) !important;
+      box-shadow:
+        0 0 0 1px rgba(255, 122, 50, 0.18),
+        0 0 18px rgba(255, 122, 50, 0.08),
+        0 16px 34px rgba(0, 0, 0, 0.22) !important;
+    }
+
+    /* Slightly tighter crops requested for these two past-project images. */
+    .support-card .artifact .delivery-robot-index {
+      object-fit: cover !important;
+      object-position: center center !important;
+      transform: scale(1.065) !important;
+    }
+
+    .support-card:hover .artifact .delivery-robot-index,
+    .support-card:focus-within .artifact .delivery-robot-index,
+    .support-card .artifact:hover .delivery-robot-index,
+    .support-card .artifact:focus-visible .delivery-robot-index {
+      transform: scale(1.078) !important;
+    }
+
+    .support-card .artifact .garden-index {
+      object-fit: cover !important;
+      object-position: center center !important;
+      transform: scale(1.035) !important;
+    }
+
+    .support-card:hover .artifact .garden-index,
+    .support-card:focus-within .artifact .garden-index,
+    .support-card .artifact:hover .garden-index,
+    .support-card .artifact:focus-visible .garden-index {
+      transform: scale(1.045) !important;
+    }
+
+    @media (max-width: 620px) {
+      .portfolio-revision { margin-bottom: 10px; }
     }
   </style>
 
@@ -2990,6 +3252,7 @@
   <main class="page">
     <header class="site-header reveal">
       <div class="identity-block">
+        <div class="portfolio-revision">Portfolio — Rev. 2026</div>
         <h1 class="name">
           <a class="name-link" href="aboutme.html">
             Brooklyn<br>Claeys
@@ -3079,7 +3342,7 @@
         <div class="project-info">
           <h2 class="project-title chamber-title">
             <a href="projects_/bmeirt-shoulder/shoulder.html">
-              Yankeaur Assistive<br>Robotic Arm
+              Yankauer Assistive<br>Robotic Arm
             </a>
           </h2>
 
@@ -3096,12 +3359,12 @@
           class="artifact main-artifact viewable shoulder-main-frame"
           href="projects_/bmeirt-shoulder/shoulder.html"
           data-label="System"
-          aria-label="View Yankeaur Assistive Robotic Arm project"
+          aria-label="View Yankauer Assistive Robotic Arm project"
         >
           <img
             class="shoulder-main-fit"
             src="photos-main/shoulder_joint.png"
-            alt="Planetary shoulder-joint prototype for the Yankeaur assistive robotic arm"
+            alt="Planetary shoulder-joint prototype for the Yankauer assistive robotic arm"
           >
         </a>
 
@@ -3110,7 +3373,7 @@
             class="artifact gear-front-frame"
             href="projects_/bmeirt-shoulder/shoulder.html"
             data-label="Assembly Drawing"
-            aria-label="View Yankeaur Assistive Robotic Arm project"
+            aria-label="View Yankauer Assistive Robotic Arm project"
           >
             <img
               class="gear-front-fit"
@@ -3122,12 +3385,12 @@
             class="artifact"
             href="projects_/bmeirt-shoulder/shoulder.html"
             data-label="Assembly"
-            aria-label="View Yankeaur Assistive Robotic Arm project"
+            aria-label="View Yankauer Assistive Robotic Arm project"
           >
             <img
               class="full-yankeaur-crop"
               src="photos-main/fullyankeour.png"
-              alt="Full Yankeaur assistive robotic arm assembly"
+              alt="Full Yankauer assistive robotic arm assembly"
             >
           </a>
         </div>
@@ -3258,6 +3521,7 @@
             aria-label="View Mini Delivery Robot project"
           >
             <img
+              class="delivery-robot-index"
               src="photos-main/ROBOT.jpg"
               alt="Mini delivery robot prototype"
             >
@@ -3283,6 +3547,7 @@
             aria-label="View Portable Indoor Garden project"
           >
             <img
+              class="garden-index"
               src="photos-main/plant_pot_leaves.png"
               alt="White line-art plant in a pot"
             >
@@ -3310,7 +3575,7 @@
 
         <h2 class="contact-title" id="contact-title">Contact Me</h2>
         <p class="contact-copy">
-          Have a project, research opportunity, or idea worth talking about? I’d love to connect! Send a note below or reach me directly at 5brooklync15@gmail.com.
+          Have a project, research opportunity, or idea worth talking about? I’d love to connect. Send a note below or reach me directly at <a class="contact-inline-email" href="mailto:5brooklync15@gmail.com">5brooklync15@gmail.com</a>.
         </p>
 
         <form class="contact-form" id="contact-form">
@@ -3383,32 +3648,54 @@
     const footerContactOpen = document.getElementById('contact-open-footer');
     if (footerContactOpen) footerContactOpen.addEventListener('click', () => contactDialog.showModal());
 
-    // Viewport-based reveal: sections fade in as they enter and soften back out after they leave.
+    // One-time viewport reveal. Content remains visible once introduced, and
+    // falls back to visible if IntersectionObserver is unavailable.
     const revealItems = [...document.querySelectorAll('.reveal')];
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        entry.target.classList.toggle('is-visible', entry.isIntersecting);
-      });
-    }, { threshold: 0.08, rootMargin: '-3% 0px -8% 0px' });
-    revealItems.forEach((item) => revealObserver.observe(item));
+    if ('IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.08, rootMargin: '-3% 0px -8% 0px' });
+      revealItems.forEach((item) => revealObserver.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add('is-visible'));
+    }
 
-    // Dots-only project position indicator.
+    // Dots-only project position indicator with an accessible current state.
     const progressDots = [...document.querySelectorAll('.progress-dot')];
     const progressTargets = [...document.querySelectorAll('[data-progress]')];
-    const progressObserver = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      const index = Number(visible.target.dataset.progress);
-      progressDots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
-    }, { threshold: [0.22, 0.42, 0.62], rootMargin: '-18% 0px -42% 0px' });
-    progressTargets.forEach((item) => progressObserver.observe(item));
+    const setActiveProgress = (index) => {
+      progressDots.forEach((dot, i) => {
+        const active = i === index;
+        dot.classList.toggle('is-active', active);
+        if (active) dot.setAttribute('aria-current', 'true');
+        else dot.removeAttribute('aria-current');
+      });
+    };
+    setActiveProgress(0);
 
+    if ('IntersectionObserver' in window) {
+      const progressObserver = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        setActiveProgress(Number(visible.target.dataset.progress));
+      }, { threshold: [0.22, 0.42, 0.62], rootMargin: '-18% 0px -42% 0px' });
+      progressTargets.forEach((item) => progressObserver.observe(item));
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     progressDots.forEach((dot) => {
       dot.addEventListener('click', () => {
         const target = document.getElementById(dot.dataset.target);
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (target) target.scrollIntoView({
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          block: 'center'
+        });
       });
     });
 
