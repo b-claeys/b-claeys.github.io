@@ -1,15 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About | Brooklyn Claeys</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About | Brooklyn Claeys</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
     /*
       If you have licensed TT Interphases webfont files, place them in /fonts
       and uncomment this block.
@@ -643,76 +642,110 @@
     }
 
   </style>
+<meta content="#000102" name="theme-color"/><meta content="About Brooklyn Claeys, a University of Calgary mechanical engineering student focused on technical design, modelling, mechatronics, and hands-on engineering projects." name="description"/><link href="assets/site-theme.css" rel="stylesheet"/>
+<style id="about-explicit-orange-fixes">
+  /* Explicit page-level accents so they remain visible even if the shared theme is unavailable. */
+  .about-page .name {
+    color: #FF7A32 !important;
+  }
+  .about-page .contact-section .section-accent-rule {
+    display: block !important;
+    width: 58px !important;
+    height: 2px !important;
+    margin: 0 0 18px !important;
+    background: #FF7A32 !important;
+    box-shadow: 0 0 18px rgba(255,122,50,.18);
+  }
+  .about-page .contact-info span:first-child {
+    color: #4B6572 !important;
+  }
+  .about-page .contact-info a,
+  .about-page .contact-info a:visited {
+    color: #E7EBED !important;
+  }
+  .about-page .contact-info a:hover,
+  .about-page .contact-info a:focus-visible {
+    color: #FF7A32 !important;
+  }
+  .about-page .contact-info span:last-child {
+    color: #7F8B92 !important;
+  }
+  .about-page .contact-submit {
+    color: #FF7A32 !important;
+  }
+  .about-page .contact-submit {
+    border-color: rgba(255,122,50,.50) !important;
+  }
+  .about-page .contact-info a:hover,
+  .about-page .contact-info a:focus-visible,
+  .about-page .contact-submit:hover,
+  .about-page .contact-submit:focus-visible {
+    color: #FF9A63 !important;
+    border-color: #FF7A32 !important;
+  }
+  .about-page .contact-field:focus-within label {
+    color: #FF7A32 !important;
+  }
+</style>
 </head>
-
-<body>
-  <main class="page">
-    <section class="about" aria-label="About Brooklyn Claeys">
-      <nav class="refined-nav" aria-label="Primary navigation">
-        <div class="refined-nav-inner">
-          <a href="index.html">Projects</a>
-          <a href="aboutme.html" aria-current="page">About Me</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </nav>
-      <div class="photo" aria-label="Portrait of Brooklyn Claeys">
-        <img src="photos-main/headshot.jpg" alt="Brooklyn Claeys">
-      </div>
-
-      <div class="content">
-        <div class="title-block">
-          <h1 class="title">About Me</h1>
-          <p class="name">Brooklyn Claeys</p>
-        </div>
-        
-        <p class="statement career-statement">
+<body class="about-page">
+<main class="page">
+<section aria-label="About Brooklyn Claeys" class="about">
+<nav aria-label="Primary navigation" class="refined-nav">
+<div class="refined-nav-inner">
+<a href="index.html">Projects</a>
+<a aria-current="page" href="aboutme.html">About Me</a>
+<a href="#contact">Contact</a>
+</div>
+</nav>
+<div aria-label="Portrait of Brooklyn Claeys" class="photo">
+<img alt="Brooklyn Claeys" decoding="async" src="photos-main/headshot.jpg"/>
+</div>
+<div class="content">
+<div class="title-block"><span aria-hidden="true" class="section-accent-rule"></span>
+<h1 class="title">About Me</h1>
+<p class="name">Brooklyn Claeys</p>
+</div>
+<p class="statement career-statement">
          I’m a third-year Mechanical Engineering student at the University of Calgary with a Biomedical Engineering minor. I enjoy working on hands on technical projects and have experience across mechanical design, research, prototyping, electronics, and testing. I’m always looking for opportunities to learn new things and build practical experience.
         </p>
-
-      </div>
-    </section>
-
-    <section class="contact-section" id="contact" aria-labelledby="contact-heading">
-      <div class="contact-left">
-        <h2 id="contact-heading">Contact Me</h2>
-
-        <p>
+</div>
+</section>
+<section aria-labelledby="contact-heading" class="contact-section" id="contact">
+<div class="contact-left">
+<span aria-hidden="true" class="section-accent-rule"></span>
+<h2 id="contact-heading">Contact Me</h2>
+<p>
           Have a project, research opportunity, or idea worth talking about? I’d love to connect.
         </p>
-
-        <div class="contact-info" aria-label="Contact information">
-          <span>Brooklyn Claeys</span>
-          <a href="mailto:5brooklync15@gmail.com">5brooklync15@gmail.com</a>
-          <span>Calgary, AB</span>
-        </div>
-      </div>
-
-      <form class="contact-form" id="contact-form">
-        <div class="contact-row">
-          <div class="contact-field">
-            <label for="contact-name">Name</label>
-            <input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Your name">
-          </div>
-
-          <div class="contact-field">
-            <label for="contact-reply">Email</label>
-            <input id="contact-reply" name="email" type="email" autocomplete="email" placeholder="you@example.com">
-          </div>
-        </div>
-
-        <div class="contact-field">
-          <label for="contact-message">Message</label>
-          <textarea id="contact-message" name="message" required placeholder="Your message"></textarea>
-        </div>
-
-        <div class="contact-submit-row">
-          <button class="contact-submit" type="submit">Send message →</button>
-        </div>
-      </form>
-    </section>
+<div aria-label="Contact information" class="contact-info">
+<span>Brooklyn Claeys</span>
+<a href="mailto:5brooklync15@gmail.com">5brooklync15@gmail.com</a>
+<span>Calgary, AB</span>
+</div>
+</div>
+<form class="contact-form" id="contact-form">
+<div class="contact-row">
+<div class="contact-field">
+<label for="contact-name">Name</label>
+<input autocomplete="name" id="contact-name" name="name" placeholder="Your name" type="text"/>
+</div>
+<div class="contact-field">
+<label for="contact-reply">Email</label>
+<input autocomplete="email" id="contact-reply" name="email" placeholder="you@example.com" type="email"/>
+</div>
+</div>
+<div class="contact-field">
+<label for="contact-message">Message</label>
+<textarea id="contact-message" name="message" placeholder="Your message" required=""></textarea>
+</div>
+<div class="contact-submit-row">
+<button class="contact-submit" type="submit">Send message →</button>
+</div>
+</form>
+</section>
 </main>
-
-  <script>
+<script>
     const contactForm = document.getElementById('contact-form');
 
     contactForm.addEventListener('submit', (event) => {
@@ -734,6 +767,5 @@
       window.location.href = mailto;
     });
   </script>
-
 </body>
 </html>

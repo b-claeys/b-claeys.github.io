@@ -615,6 +615,341 @@
       }
     }
 </style>
+
+  <style id="approved-project-accent-fix">
+    /* Approved finishing accents only — preserves the original corrected project-page design. */
+    :root {
+      --portfolio-orange: #FF7A32;
+      --portfolio-orange-hover: #FF9B65;
+      --portfolio-orange-line: rgba(255,122,50,.72);
+    }
+    .pdf-link, .pdf-link:visited {
+      color: var(--portfolio-orange) !important;
+      border-bottom-color: var(--portfolio-orange-line) !important;
+    }
+    .pdf-link:hover, .pdf-link:focus-visible {
+      color: var(--portfolio-orange-hover) !important;
+      border-bottom-color: var(--portfolio-orange-hover) !important;
+    }
+    a:hover, button:hover {
+      --accent-text: var(--portfolio-orange);
+    }
+    .swap-card:hover .media-frame,
+    .swap-card:focus-visible .media-frame {
+      border-color: var(--portfolio-orange-line) !important;
+    }
+    .next-project-link:hover .next-project-title,
+    .next-project-link:focus-visible .next-project-title,
+    .archive-link:hover, .archive-link:focus-visible {
+      color: var(--portfolio-orange) !important;
+    }
+    :focus-visible { outline-color: var(--portfolio-orange) !important; }
+  </style>
+  <style id="project-homepage-aesthetic-match">
+    /* Project-page visual match to the approved homepage. Layout/content intentionally untouched. */
+    :root {
+      --project-bg: #000102;
+      --project-bg-deep: #000000;
+      --project-panel: #010407;
+      --project-panel-soft: rgba(5, 14, 21, 0.54);
+      --project-text: #edf0f2;
+      --project-muted: #87939a;
+      --project-blue: #405b68;
+      --project-blue-hover: #6a828d;
+      --project-line: rgba(54, 75, 86, 0.18);
+      --project-line-soft: rgba(54, 75, 86, 0.095);
+      --project-orange: #FF7A32;
+      --project-orange-hover: #FF9B65;
+      --project-orange-soft: rgba(255, 122, 50, 0.14);
+      --project-orange-line: rgba(255, 122, 50, 0.76);
+    }
+
+    html {
+      background: var(--project-bg) !important;
+      color-scheme: dark;
+    }
+
+    body {
+      color: var(--project-text) !important;
+      background:
+        radial-gradient(850px 520px at 88% 0%, rgba(8, 17, 23, 0.055), transparent 78%),
+        radial-gradient(760px 560px at 4% 58%, rgba(8, 20, 28, 0.035), transparent 80%),
+        linear-gradient(180deg, var(--project-bg) 0%, #010305 50%, var(--project-bg-deep) 100%) !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scrollbar-color: rgba(106, 130, 141, 0.36) rgba(0, 1, 2, 0.92) !important;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: rgba(0, 1, 2, 0.92) !important;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: rgba(106, 130, 141, 0.30) !important;
+      border-color: rgba(0, 1, 2, 0.92) !important;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: rgba(106, 130, 141, 0.48) !important;
+    }
+
+    ::selection {
+      color: var(--project-text);
+      background: rgba(255, 122, 50, 0.28);
+    }
+
+    /* Keep the original background composition but shift it into the homepage palette. */
+    .background-context {
+      opacity: 0.13 !important;
+      filter: blur(1.35px) !important;
+    }
+
+    .ghost-header {
+      border-bottom-color: var(--project-line-soft) !important;
+    }
+
+    .ghost-name {
+      color: rgba(106, 130, 141, 0.34) !important;
+    }
+
+    .ghost-block {
+      background: rgba(3, 8, 12, 0.82) !important;
+      border-color: var(--project-line-soft) !important;
+    }
+
+    /* Same blue-black depth as the homepage rather than the old brown/black panel. */
+    .summary-panel {
+      background:
+        radial-gradient(700px 320px at 8% 0%, rgba(20, 43, 56, 0.10), transparent 72%),
+        linear-gradient(180deg, rgba(3, 8, 12, 0.985), rgba(1, 4, 7, 0.985)) !important;
+      border-color: var(--project-line) !important;
+      box-shadow:
+        0 28px 80px rgba(0, 0, 0, 0.48),
+        0 0 0 1px rgba(64, 91, 104, 0.025) !important;
+    }
+
+    h1 {
+      color: var(--project-text) !important;
+      text-wrap: balance;
+    }
+
+    /* Small permanent orange cue: present on every project, including pages without PDFs. */
+    h1::after {
+      content: '';
+      display: block;
+      width: 34px;
+      height: 2px;
+      margin-top: 17px;
+      background: var(--project-orange);
+      box-shadow: 0 0 12px rgba(255, 122, 50, 0.10);
+    }
+
+    .summary-intro,
+    .summary-card p,
+    .visual-card p,
+    .system-row span,
+    .next-project-label,
+    .all-projects-link,
+    .project-files-link,
+    .home-link {
+      color: var(--project-muted) !important;
+    }
+
+    .summary-card {
+      background:
+        linear-gradient(180deg, rgba(5, 14, 21, 0.58), rgba(2, 7, 11, 0.52)) !important;
+      border-color: var(--project-line-soft) !important;
+    }
+
+    .summary-card h2,
+    .section-heading {
+      color: var(--project-blue-hover) !important;
+    }
+
+    .visual-card {
+      border-top-color: var(--project-line-soft) !important;
+    }
+
+    .visual-card h3,
+    .system-row strong {
+      color: #c9d2d6 !important;
+    }
+
+    .system-list,
+    .project-footer,
+    .cta-row {
+      border-color: var(--project-line-soft) !important;
+    }
+
+    .system-row {
+      border-bottom-color: var(--project-line-soft) !important;
+    }
+
+    /* Image framing follows the homepage: cool neutral border at rest, orange only when interactive. */
+    .media-frame {
+      background: var(--project-bg) !important;
+      border-color: var(--project-line-soft) !important;
+      box-shadow:
+        inset 0 0 0 14px var(--project-panel),
+        inset 0 0 0 15px var(--project-line-soft) !important;
+    }
+
+    .media-frame.cad {
+      /* Preserve the existing light CAD plate while harmonizing its outer edge. */
+      border-color: rgba(64, 91, 104, 0.24) !important;
+    }
+
+    .swap-card .media-frame {
+      transition: border-color 180ms ease, box-shadow 200ms ease, transform 200ms ease !important;
+    }
+
+    .swap-card:hover .media-frame,
+    .swap-card:focus-visible .media-frame {
+      border-color: var(--project-orange-line) !important;
+      box-shadow:
+        0 0 0 1px rgba(255, 122, 50, 0.18),
+        0 0 22px var(--project-orange-soft) !important;
+      transform: translateY(-1px);
+    }
+
+    .swap-card:hover .media-frame.cad,
+    .swap-card:focus-visible .media-frame.cad {
+      box-shadow:
+        inset 0 0 0 10px var(--cad-bg),
+        inset 0 0 0 11px var(--project-orange-line),
+        0 0 22px var(--project-orange-soft) !important;
+    }
+
+    /* Blue is the structural accent. Orange means action. */
+    .pdf-link,
+    .pdf-link:visited {
+      color: var(--project-orange) !important;
+      border-bottom-color: var(--project-orange-line) !important;
+    }
+
+    .pdf-link:hover,
+    .pdf-link:focus-visible {
+      color: var(--project-orange-hover) !important;
+      border-bottom-color: var(--project-orange-hover) !important;
+    }
+
+    .archive-link {
+      border-top-color: var(--project-blue) !important;
+      border-bottom-color: var(--project-line-soft) !important;
+    }
+
+    .home-link:hover,
+    .home-link:focus-visible,
+    .archive-link:hover,
+    .archive-link:focus-visible,
+    .all-projects-link:hover,
+    .all-projects-link:focus-visible,
+    .project-files-link:hover,
+    .project-files-link:focus-visible,
+    .next-project-link:hover .next-project-title,
+    .next-project-link:focus-visible .next-project-title {
+      color: var(--project-orange) !important;
+      border-color: var(--project-orange-line) !important;
+    }
+
+    .next-project-title {
+      color: var(--project-text) !important;
+    }
+
+    :focus-visible {
+      outline-color: var(--project-orange) !important;
+    }
+
+    @media (max-width: 760px) {
+      .background-context { opacity: 0.09 !important; }
+      h1::after { margin-top: 14px; }
+    }
+  </style>
+
+
+<style id="project-homepage-color-hierarchy-v2">
+  /* Final project-page colour match. Layout/content intentionally untouched. */
+  :root {
+    --project-bg: #010305;
+    --project-bg-mid: #020507;
+    --project-bg-deep: #000102;
+    --project-panel: #03070a;
+    --project-title-blue: #49636f;
+    --project-heading-blue: #6a828d;
+    --project-subheading: #bcc5ca;
+    --project-body-grey: #849198;
+    --project-muted-grey: #747d83;
+  }
+
+  html { background: var(--project-bg) !important; }
+
+  body {
+    background:
+      radial-gradient(900px 620px at 90% 0%, rgba(13, 25, 33, 0.038), transparent 76%),
+      radial-gradient(760px 540px at 4% 58%, rgba(7, 15, 21, 0.017), transparent 82%),
+      linear-gradient(180deg, var(--project-bg) 0%, var(--project-bg-mid) 52%, var(--project-bg-deep) 100%) !important;
+  }
+
+  .summary-panel {
+    background:
+      radial-gradient(700px 320px at 8% 0%, rgba(20, 43, 56, 0.08), transparent 72%),
+      linear-gradient(180deg, rgba(3, 7, 10, 0.985), rgba(1, 4, 7, 0.985)) !important;
+  }
+
+  /* Home-page hierarchy: blue titles, grey prose, orange interaction. */
+  h1 {
+    color: var(--project-title-blue) !important;
+  }
+
+  .summary-card h2,
+  .section-heading {
+    color: var(--project-heading-blue) !important;
+  }
+
+  .visual-card h3,
+  .system-row strong,
+  .next-project-title {
+    color: var(--project-subheading) !important;
+  }
+
+  .summary-intro,
+  .summary-card p,
+  .visual-card p,
+  .system-row span,
+  .next-project-label,
+  .all-projects-link,
+  .project-files-link,
+  .home-link,
+  .archive-link,
+  .image-caption,
+  figcaption,
+  .caption,
+  li {
+    color: var(--project-body-grey) !important;
+  }
+
+  .image-label,
+  .meta,
+  .eyebrow,
+  .kicker {
+    color: var(--project-muted-grey) !important;
+  }
+
+  /* Preserve the established orange action language. */
+  .pdf-link,
+  .pdf-link:visited {
+    color: var(--project-orange) !important;
+    border-bottom-color: var(--project-orange-line) !important;
+  }
+
+  .pdf-link:hover,
+  .pdf-link:focus-visible,
+  a:hover,
+  a:focus-visible {
+    text-decoration-color: var(--project-orange) !important;
+  }
+</style>
+
 </head>
 
 <body>
